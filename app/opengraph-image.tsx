@@ -1,8 +1,6 @@
 import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { SITE_URL } from "@/lib/utils";
 
-export const runtime = "nodejs";
 export const alt = "Tropijoy — Pure Joy In Every Bite";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -19,18 +17,33 @@ const POUCH_POSITIONS = [
   { x: 222, y: 250, r: 6 },
 ];
 
-async function toDataUri(relativePath: string) {
-  const buf = await readFile(join(process.cwd(), relativePath));
-  return `data:image/png;base64,${buf.toString("base64")}`;
+/**
+ * Fetches a public asset by URL rather than reading it off local disk —
+ * Cloudflare Workers has no filesystem at request time (only the build
+ * container does), so `fs.readFile` works during a local/CI build but
+ * 500s in production. `fetch` is the one asset-loading approach that
+ * works identically in Next dev, the build, and on Workers.
+ */
+async function fetchAsset(path: string) {
+  const res = await fetch(`${SITE_URL}${path}`);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch OG asset ${path}: ${res.status}`);
+  }
+  return res.arrayBuffer();
+}
+
+async function toDataUri(path: string) {
+  const buf = await fetchAsset(path);
+  return `data:image/png;base64,${Buffer.from(buf).toString("base64")}`;
 }
 
 export default async function Image() {
   const [logoSrc, fruitSrcs, semiBoldFont, boldFont, extraBoldFont] = await Promise.all([
-    toDataUri("public/brand/logo-white.png"),
-    Promise.all(FRUITS.map((f) => toDataUri(`public/products/${f}.png`))),
-    readFile(join(process.cwd(), "public/fonts/Baloo2-SemiBold.ttf")),
-    readFile(join(process.cwd(), "public/fonts/Baloo2-Bold.ttf")),
-    readFile(join(process.cwd(), "public/fonts/Baloo2-ExtraBold.ttf")),
+    toDataUri("/brand/logo-white.png"),
+    Promise.all(FRUITS.map((f) => toDataUri(`/products/${f}.png`))),
+    fetchAsset("/fonts/Baloo2-SemiBold.ttf"),
+    fetchAsset("/fonts/Baloo2-Bold.ttf"),
+    fetchAsset("/fonts/Baloo2-ExtraBold.ttf"),
   ]);
 
   return new ImageResponse(

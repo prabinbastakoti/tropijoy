@@ -38,6 +38,8 @@ export const metadata: Metadata = {
     title: "Tropijoy — Pure Joy In Every Bite",
     description:
       "Premium dehydrated fruits and freeze-dried fruit powders from Nepal.",
+    url: SITE_URL,
+    siteName: "Tropijoy",
     type: "website",
   },
 };
