@@ -1,0 +1,193 @@
+[
+  {
+    "id": "dried-apple",
+    "name": "Dried Apple",
+    "slug": "dried-apple",
+    "category": "Dehydrated Fruit",
+    "fruitType": "Apple",
+    "accentColor": "#9B2B19",
+    "tags": ["Best Seller", "100% Natural", "No Added Sugar"],
+    "description": "Crisp Nepali apples, sliced thin and gently dehydrated until naturally sweet and chewy. One ingredient on the label: apple. No sugar, no preservatives, no artificial colour.",
+    "nutritionHighlights": [
+      "Rich in fiber",
+      "No artificial preservatives",
+      "No artificial colors",
+      "No added sugar"
+    ],
+    "images": ["/products/apple.png"],
+    "variants": [
+      { "id": "100g", "weight": "100g", "price": 319, "originalPrice": null, "sku": "TJ-APPLE-100", "inStock": true, "stock": 4 },
+      { "id": "200g", "weight": "200g", "price": 629, "originalPrice": 638, "sku": "TJ-APPLE-200", "inStock": false, "stock": 0 }
+    ],
+    "defaultVariantId": "100g",
+    "rating": 4.8,
+    "reviewsCount": 13
+  },
+  {
+    "id": "dried-lemon",
+    "name": "Dried Lemon",
+    "slug": "dried-lemon",
+    "category": "Dehydrated Fruit",
+    "fruitType": "Lemon",
+    "accentColor": "#E8C31E",
+    "tags": ["100% Natural", "No Added Sugar", "Vegan"],
+    "description": "Thin-cut lemon wheels, dehydrated slow and low until the pith turns golden and chewy. Tart, fragrant, and ready for tea, cocktails, or straight out of the pouch.",
+    "nutritionHighlights": [
+      "High in Vitamin C",
+      "No artificial preservatives",
+      "No artificial colors",
+      "Naturally tangy — no added sugar"
+    ],
+    "images": ["/products/lemon.png"],
+    "variants": [
+      { "id": "100g", "weight": "100g", "price": 249, "originalPrice": null, "sku": "TJ-LEMON-100", "inStock": false, "stock": 0 },
+      { "id": "200g", "weight": "200g", "price": 489, "originalPrice": 498, "sku": "TJ-LEMON-200", "inStock": false, "stock": 0 }
+    ],
+    "defaultVariantId": "100g",
+    "rating": 4.6,
+    "reviewsCount": 13
+  },
+  {
+    "id": "dried-orange",
+    "name": "Dried Orange",
+    "slug": "dried-orange",
+    "category": "Dehydrated Fruit",
+    "fruitType": "Orange",
+    "accentColor": "#E46C0B",
+    "tags": ["Best Seller", "100% Natural", "Vegan"],
+    "description": "Whole orange slices dried until they turn nearly translucent at the edges — sweet-tart, chewy, and fragrant. A snack, a garnish, or a tea infusion, all in one pouch.",
+    "nutritionHighlights": [
+      "High in Vitamin C",
+      "No artificial preservatives",
+      "No artificial colors",
+      "Caffeine-free energy"
+    ],
+    "images": ["/products/orange.png"],
+    "variants": [
+      { "id": "100g", "weight": "100g", "price": 339, "originalPrice": null, "sku": "TJ-ORANGE-100", "inStock": true, "stock": 9 },
+      { "id": "200g", "weight": "200g", "price": 669, "originalPrice": 678, "sku": "TJ-ORANGE-200", "inStock": false, "stock": 0 }
+    ],
+    "defaultVariantId": "100g",
+    "rating": 4.7,
+    "reviewsCount": 11
+  },
+  {
+    "id": "dried-pineapple",
+    "name": "Dried Pineapple",
+    "slug": "dried-pineapple",
+    "category": "Dehydrated Fruit",
+    "fruitType": "Pineapple",
+    "accentColor": "#ECB722",
+    "tags": ["100% Natural", "No Added Sugar", "Vegan"],
+    "description": "Golden pineapple rings, slow-dried to a light chew with none of the syrupy stickiness you get from candied versions. Just sunshine and fruit.",
+    "nutritionHighlights": [
+      "Contains natural bromelain enzyme",
+      "High in Vitamin C",
+      "No artificial preservatives",
+      "No added sugar"
+    ],
+    "images": ["/products/pineapple.png"],
+    "variants": [
+      { "id": "100g-with-peel", "weight": "100g", "style": "With Peel", "price": 469, "originalPrice": null, "sku": "TJ-PINEAPPLE-WP-100", "inStock": true, "stock": 5 },
+      { "id": "100g-without-peel", "weight": "100g", "style": "Without Peel", "price": 499, "originalPrice": null, "sku": "TJ-PINEAPPLE-NP-100", "inStock": true, "stock": 1 },
+      { "id": "200g-with-peel", "weight": "200g", "style": "With Peel", "price": 929, "originalPrice": 938, "sku": "TJ-PINEAPPLE-WP-200", "inStock": false, "stock": 0 },
+      { "id": "200g-without-peel", "weight": "200g", "style": "Without Peel", "price": 989, "originalPrice": 998, "sku": "TJ-PINEAPPLE-NP-200", "inStock": false, "stock": 0 }
+    ],
+    "defaultVariantId": "100g-with-peel",
+    "rating": 4.5,
+    "reviewsCount": 9
+  },
+  {
+    "id": "dried-banana",
+    "name": "Dried Banana",
+    "slug": "dried-banana",
+    "category": "Dehydrated Fruit",
+    "fruitType": "Banana",
+    "accentColor": "#D4AE59",
+    "tags": ["Best Seller", "100% Natural", "Vegan"],
+    "description": "Slow-dried banana coins with a naturally caramelized flavor and a satisfying, dense chew. No frying, no added oil, no added sugar — just banana.",
+    "nutritionHighlights": [
+      "High in Potassium",
+      "No artificial preservatives",
+      "No artificial colors",
+      "Great energy snack"
+    ],
+    "images": ["/products/banana.png"],
+    "variants": [
+      { "id": "100g", "weight": "100g", "price": 319, "originalPrice": null, "sku": "TJ-BANANA-100", "inStock": false, "stock": 0},
+      { "id": "200g", "weight": "200g", "price": 629, "originalPrice": 638, "sku": "TJ-BANANA-200", "inStock": false, "stock": 0 }
+    ],
+    "defaultVariantId": "100g",
+    "rating": 4.8,
+    "reviewsCount": 12
+  },
+  {
+    "id": "banana-powder",
+    "name": "Banana Powder",
+    "slug": "banana-powder",
+    "category": "Fruit Powder",
+    "fruitType": "Banana",
+    "accentColor": "#D4AE59",
+    "tags": ["100% Natural", "No Added Sugar", "Vegan"],
+    "description": "Pure dried banana, milled to a fine, naturally sweet powder. Stir into smoothies, porridge, or baking for banana flavor with zero fillers and zero additives.",
+    "nutritionHighlights": [
+      "High in Potassium",
+      "No fillers, no additives",
+      "Natural sweetener and thickener",
+      "No added sugar"
+    ],
+    "images": ["/products/banana-powder.png"],
+    "variants": [
+      { "id": "50g", "weight": "50g", "price": 199, "originalPrice": null, "sku": "TJ-BANPOWDER-50", "inStock": false, "stock": 0 }
+    ],
+    "defaultVariantId": "50g",
+    "rating": 4.9,
+    "reviewsCount": 10
+  },
+  {
+    "id": "trio-bundle",
+    "name": "Trio Bundle",
+    "slug": "trio-bundle",
+    "category": "Bundle",
+    "fruitType": "Mixed",
+    "accentColor": "#1B3B2B",
+    "tags": ["Bundle", "No Added Sugar", "Vegan"],
+    "description": "Three of our bestselling pouches — Dried Apple, Dried Orange, and Dried Banana (100g each) — bundled at a lower price than buying them separately. Perfect for daily snacking.",
+    "nutritionHighlights": [
+      "3 fruits, one ingredient each",
+      "No added sugar across the bundle",
+      "No artificial preservatives",
+      "No artificial colors"
+    ],
+    "images": ["/products/apple.png"],
+    "variants": [
+      { "id": "bundle", "weight": "Bundle", "price": 2350, "originalPrice": 2680, "sku": "TJ-BUNDLE-TRIO", "inStock": true }
+    ],
+    "defaultVariantId": "bundle",
+    "rating": 0,
+    "reviewsCount": 0
+  },
+  {
+    "id": "sampler-six",
+    "name": "Sampler Six",
+    "slug": "sampler-six",
+    "category": "Bundle",
+    "fruitType": "Mixed",
+    "accentColor": "#1B3B2B",
+    "tags": ["Bundle", "Best Value", "Vegan"],
+    "description": "One of everything: Dried Apple, Lemon, Orange, Pineapple, and Banana (100g each) plus Banana Powder (50g) — our full range, bundled to save. Great for gifting or a well-stocked pantry.",
+    "nutritionHighlights": [
+      "6 products, one ingredient each",
+      "No added sugar across the bundle",
+      "No artificial preservatives",
+      "No artificial colors"
+    ],
+    "images": ["/products/banana-powder.png"],
+    "variants": [
+      { "id": "bundle", "weight": "Bundle", "price": 4950, "originalPrice": 5830, "sku": "TJ-BUNDLE-SIX", "inStock": true }
+    ],
+    "defaultVariantId": "bundle",
+    "rating": 0,
+    "reviewsCount": 0
+  }
+]

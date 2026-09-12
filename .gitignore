@@ -1,4 +1,12 @@
 node_modules
+.next
+out
 dist
 .wrangler
+.env
+.env.local
+.env*.local
 .dev.vars
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store

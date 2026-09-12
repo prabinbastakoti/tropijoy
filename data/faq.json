@@ -1,0 +1,86 @@
+[
+  {
+    "category": "Orders & Payment",
+    "items": [
+      {
+        "question": "How do I place an order?",
+        "answer": "Add what you want to your cart and go through checkout. We'll ask for delivery details and your preferred contact channel — WhatsApp, Email, Instagram, Telegram or phone. We then reach out on that channel to confirm the order and arrange payment."
+      },
+      {
+        "question": "What payment methods do you accept?",
+        "answer": "eSewa, Khalti, IME Pay, direct bank transfer, and cash on delivery inside the Kathmandu Valley. We share payment details when we contact you to confirm your order, so nothing sensitive goes through the website."
+      },
+      {
+        "question": "Why don't you take card payments on the site?",
+        "answer": "We're a small operation and we'd rather not handle card data at all than handle it badly. Confirming over your preferred channel also lets us check stock and delivery timing before you pay."
+      },
+      {
+        "question": "Can I change or cancel my order?",
+        "answer": "Yes, any time before it ships. Reply on the channel we contacted you through, or message us at contact@tropijoynp.com. Once a parcel has left with the courier we can't recall it, but our returns policy still applies."
+      }
+    ]
+  },
+  {
+    "category": "Delivery",
+    "items": [
+      {
+        "question": "How long does delivery take?",
+        "answer": "Inside the Kathmandu Valley, 1–2 working days. Major cities outside the valley — Pokhara, Chitwan, Butwal, Biratnagar — typically 2–4 working days. More remote districts can take up to a week depending on courier coverage."
+      },
+      {
+        "question": "How much is delivery?",
+        "answer": "A flat Rs. 150 anywhere in Nepal, and free on orders over Rs. 3,000."
+      },
+      {
+        "question": "Do you ship internationally?",
+        "answer": "Not yet. Dried fruit crosses borders under agricultural import rules that vary a lot by country, and we'd rather not sell you something that gets held at customs. We're working on it for India and the Gulf."
+      },
+      {
+        "question": "Will the fruit survive monsoon delivery?",
+        "answer": "Yes. Everything ships in nitrogen-flushed, resealable pouches with a silica sachet inside, and parcels go out in a waterproof outer. If something does arrive damp or damaged, tell us and we'll replace it."
+      }
+    ]
+  },
+  {
+    "category": "Products & Ingredients",
+    "items": [
+      {
+        "question": "Is there really no added sugar?",
+        "answer": "None. The only ingredient in each pouch is the fruit on the label. The sugar figure on the nutrition panel looks high because removing water concentrates the fruit's own sugars — 100g of dried apple is roughly 650g of fresh apple."
+      },
+      {
+        "question": "Do you use sulphites or preservatives?",
+        "answer": "No. That's why our fruit darkens slightly over its shelf life instead of staying artificially bright, and why we give it 9 months rather than the 2 years you'll see on treated products."
+      },
+      {
+        "question": "Is everything vegan and gluten-free?",
+        "answer": "Yes. Every product is fruit and nothing else, so all of it is vegan, gluten-free and dairy-free. We do handle tree nuts elsewhere in the facility, so we can't guarantee a nut-free line."
+      },
+      {
+        "question": "What's the difference between the slices and the banana powder?",
+        "answer": "The fruit slices are low-temperature dehydrated, which gives a dense, chewy snack. Banana powder is freeze-dried and milled, which keeps more of the nutrients and the natural colour, and dissolves into smoothies, yoghurt and baking."
+      },
+      {
+        "question": "How should I store it once opened?",
+        "answer": "Press the zip fully closed, push the air out first, and keep the pouch somewhere cool and dark. Leave the silica sachet in. Don't refrigerate — condensation on cold fruit is exactly what you're trying to avoid."
+      }
+    ]
+  },
+  {
+    "category": "Returns & Support",
+    "items": [
+      {
+        "question": "What's your returns policy?",
+        "answer": "If a pouch is unopened and undamaged, you can return it within 7 days of delivery for a full refund. If something arrived damaged, spoiled or simply wrong, tell us within 48 hours and we'll replace it or refund it — no need to send it back."
+      },
+      {
+        "question": "The product doesn't taste how I expected.",
+        "answer": "Tell us. Because we buy seasonally and don't blend batches to a fixed profile, an early-season batch genuinely tastes different from a late one. If a batch isn't right we want to know, and we'll sort it out."
+      },
+      {
+        "question": "How do I get in touch?",
+        "answer": "Email contact@tropijoynp.com or call +977 9768530718. We're generally quickest on WhatsApp during business hours, Sunday to Friday, 10am–6pm."
+      }
+    ]
+  }
+]

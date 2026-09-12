@@ -1,0 +1,234 @@
+[
+  {
+    "slug": "why-we-never-add-sugar",
+    "title": "Why We Never Add Sugar",
+    "excerpt": "Most dried fruit on the shelf is candy in disguise. Here's what we found when we started reading labels — and why we build ours differently.",
+    "category": "Behind the Scenes",
+    "author": "Sneha Maharjan",
+    "date": "2026-07-28T09:00:00Z",
+    "readTime": 6,
+    "accent": "sunny",
+    "heroFruit": "Apple",
+    "blocks": [
+      { "type": "paragraph", "text": "Walk down the snack aisle of any supermarket in Kathmandu and pick up a packet of dried apple. Turn it over. There is a good chance the second ingredient — sometimes the first — is sugar. Often there is also a sulphite preservative, and occasionally an artificial colour to keep the ring looking bright." },
+      { "type": "paragraph", "text": "None of that is there to make the fruit better. It is there to make cheap fruit acceptable, and to make it last on a shelf for two years." },
+      { "type": "heading", "text": "Sugar hides poor fruit" },
+      { "type": "paragraph", "text": "Ripe fruit at peak season is already sweet. A properly ripened apple off a Mustang orchard has more than enough natural sugar to taste like dessert once the water is removed. Added sugar only becomes necessary when the fruit going into the dehydrator was picked early, stored too long, or simply was not very good to begin with." },
+      { "type": "paragraph", "text": "That is the uncomfortable truth of the category: sugar is a patch. It covers up sourcing decisions the producer would rather you did not taste." },
+      { "type": "callout", "title": "The test we use", "text": "If a batch does not taste good unsweetened, we do not sweeten it — we reject the batch. It is a more expensive rule to follow, and it is the reason our yields are lower than the industry norm." },
+      { "type": "heading", "text": "What sulphites actually do" },
+      { "type": "paragraph", "text": "Sulphur dioxide keeps dried fruit looking vivid. Untreated dried apple turns a deeper amber over time; untreated banana goes properly golden-brown. Both are entirely normal. Sulphites freeze that colour in place, which is a cosmetic benefit for the seller and, for a meaningful number of people, a trigger for headaches and asthma symptoms." },
+      { "type": "list", "items": [
+        "Our fruit changes colour slightly over its shelf life. That is the fruit behaving like fruit.",
+        "We use nitrogen-flushed, resealable pouches instead of chemical preservatives.",
+        "Shelf life is 9 months, not 24. We think that is the honest trade."
+      ]},
+      { "type": "quote", "text": "We would rather sell you something that looks a little less perfect and tastes considerably more like fruit.", "attribution": "Sneha Maharjan, co-founder" },
+      { "type": "heading", "text": "What this means for you" },
+      { "type": "paragraph", "text": "Expect variation. Apple from an early-season batch tastes brighter and more tart; late-season fruit is rounder and sweeter. Orange batches differ visibly from harvest to harvest. We could blend all of that away into a uniform product. We would rather you tasted the year." }
+    ]
+  },
+  {
+    "slug": "dehydration-vs-freeze-drying",
+    "title": "Dehydration vs Freeze-Drying: What Actually Changes",
+    "excerpt": "Two methods, two very different results. A practical guide to why our fruit slices are chewy and our banana powder is fine and light.",
+    "category": "Guides",
+    "author": "Bibek Gurung",
+    "date": "2026-07-12T09:00:00Z",
+    "readTime": 8,
+    "accent": "forest",
+    "heroFruit": "Banana",
+    "blocks": [
+      { "type": "paragraph", "text": "People use \"dried\" as a single word, but the two processes behind it produce almost opposite products. Understanding the difference explains why our apple rings are chewy and our banana powder is a fine, pale dust." },
+      { "type": "heading", "text": "Low-temperature dehydration" },
+      { "type": "paragraph", "text": "Warm air is moved across sliced fruit over 8 to 14 hours, pulling moisture out gradually. We hold temperatures at 45–55°C — low enough to protect heat-sensitive vitamin C and the volatile aromatic compounds that make fruit smell like itself." },
+      { "type": "paragraph", "text": "The fruit shrinks and its sugars concentrate. The result is dense, chewy and intensely flavoured. This is the method behind every slice we sell — apple, lemon, orange, pineapple and banana." },
+      { "type": "heading", "text": "Freeze-drying" },
+      { "type": "paragraph", "text": "The fruit is frozen solid, then placed under vacuum. The ice converts straight from solid to vapour without ever becoming liquid — sublimation. Because water never moves through the fruit as a liquid, the cell walls are not dragged inward, and the structure stays where it was." },
+      { "type": "list", "items": [
+        "Retains roughly 95% of original nutrients versus 60–75% for heat drying",
+        "Produces a light, crystalline, shatter-crisp texture before milling",
+        "Takes 24–36 hours and far more energy, which is why it costs more",
+        "Grinds into a fine, pale, true-to-fruit powder"
+      ]},
+      { "type": "callout", "title": "Rule of thumb", "text": "If you want to eat it as a chewy snack, dehydrate. If you want a powder for smoothies and baking, freeze-dry." },
+      { "type": "heading", "text": "Why our banana powder is freeze-dried" },
+      { "type": "paragraph", "text": "Heat-dried banana mills into a dull, slightly caramelised powder — the sugars have already begun to brown. Freeze-dried banana mills into something much closer to fresh: a pale gold, faintly sweet powder that hasn't cooked at all." },
+      { "type": "paragraph", "text": "That colour is not decoration. It is a direct visual signal that the delicate aromatics survived the process intact, which is why it stirs into a smoothie tasting like actual banana rather than banana-flavoured filler." }
+    ]
+  },
+  {
+    "slug": "five-minute-smoothie-bowls",
+    "title": "Five-Minute Smoothie Bowls Built on Banana Powder",
+    "excerpt": "Four formulas built on Tropijoy banana powder, each balanced for staying power so you're not hungry again by ten.",
+    "category": "Recipes",
+    "author": "Anisha Tamang",
+    "date": "2026-06-30T09:00:00Z",
+    "readTime": 5,
+    "accent": "berry",
+    "heroFruit": "Banana",
+    "blocks": [
+      { "type": "paragraph", "text": "The problem with most smoothie bowls is that they are fruit, ice and more fruit — a large volume of fast sugar that leaves you hungry within the hour. Each of these adds a protein and a fat source so the bowl actually holds, then uses a dried-fruit topping for crunch." },
+      { "type": "heading", "text": "The base formula" },
+      { "type": "list", "items": [
+        "1 frozen banana (the body)",
+        "2 tbsp Tropijoy Banana Powder (the flavour)",
+        "150ml milk or plant milk, added slowly",
+        "1 tbsp nut butter or 2 tbsp Greek yoghurt (the staying power)",
+        "A pinch of salt — it makes fruit taste more like fruit"
+      ]},
+      { "type": "paragraph", "text": "Blend thick. You want it to hold a spoon upright. Add liquid a splash at a time; it is far easier to thin a bowl than to rescue a smoothie." },
+      { "type": "heading", "text": "1. Banana-apple crunch" },
+      { "type": "paragraph", "text": "Base as above, topped with broken pieces of Dried Apple for a caramel-adjacent crunch. Simple, and the closest thing to eating a bowl of banana bread with a spoon." },
+      { "type": "heading", "text": "2. Banana-orange sunrise" },
+      { "type": "paragraph", "text": "Swap the milk for orange juice, add the base powder, and top with torn Dried Orange slices. The citrus cuts through banana's sweetness in a way that wakes the whole bowl up." },
+      { "type": "heading", "text": "3. Banana lassi bowl" },
+      { "type": "paragraph", "text": "Swap the milk for full-fat yoghurt, add the base powder, a cardamom pod's worth of ground seeds, and a teaspoon of honey if your yoghurt is sharp. Tastes like a lassi you can eat with a spoon." },
+      { "type": "heading", "text": "4. Tropical banana-pineapple" },
+      { "type": "paragraph", "text": "Base as above, topped with chopped Dried Pineapple and a squeeze of lemon. The pineapple's tang against the banana powder's sweetness is the closest this bowl gets to dessert." },
+      { "type": "callout", "title": "On toppings", "text": "Add crunch last, immediately before eating. Dehydrated fruit softens on contact with a cold wet surface within a couple of minutes." }
+    ]
+  },
+  {
+    "slug": "reading-a-nutrition-label",
+    "title": "How to Read a Dried Fruit Label Properly",
+    "excerpt": "Per-100g figures make dried fruit look alarming. Here's how to interpret them without either panicking or being misled.",
+    "category": "Nutrition",
+    "author": "Prashamsa Rai",
+    "date": "2026-06-14T09:00:00Z",
+    "readTime": 7,
+    "accent": "citrus",
+    "heroFruit": "Apple",
+    "blocks": [
+      { "type": "paragraph", "text": "A customer emailed us last month, concerned: our dried apple showed 58g of sugar per 100g. Was this really a no-added-sugar product? It was a completely fair question, and the answer is a useful lesson in reading labels." },
+      { "type": "heading", "text": "Removing water concentrates everything" },
+      { "type": "paragraph", "text": "Fresh apple is roughly 85% water. Take that water away and you are left with about 15g of solids from every 100g of fruit — and all of the sugar, fibre, vitamins and minerals that were dissolved in it are now packed into that 15g." },
+      { "type": "paragraph", "text": "So 100g of dried apple is not 100g of apple. It is closer to 650g of fresh apple. The sugar figure is high because the fruit is concentrated, not because anything was added." },
+      { "type": "callout", "title": "The number that matters", "text": "Compare the 'of which sugars' line against the ingredients list. If the only ingredient is fruit, every gram of that sugar came from the fruit itself." },
+      { "type": "heading", "text": "Why fibre changes the picture" },
+      { "type": "paragraph", "text": "Sugar bound up in an intact fibre matrix behaves very differently in the body from the same amount of free sugar in a soft drink. The fibre slows gastric emptying and blunts the rise in blood glucose. Dried fruit keeps its fibre; fruit juice does not." },
+      { "type": "list", "items": [
+        "Dried apple: ~58g sugar, ~6g fibre per 100g, eaten in ~30g portions",
+        "Fruit juice: ~10g sugar, ~0g fibre per 100ml, drunk in 250ml servings",
+        "The juice looks better per 100g and is considerably worse in practice"
+      ]},
+      { "type": "heading", "text": "Portion is the real control" },
+      { "type": "paragraph", "text": "A sensible portion of dried fruit is 25–40g — a small handful, or roughly six to eight apple rings. At that size you are eating around 17g of sugar alongside meaningful fibre and potassium. That is a reasonable snack, not a health emergency." },
+      { "type": "quote", "text": "Dried fruit is concentrated fruit. Treat the portion accordingly and the maths works out fine.", "attribution": "Prashamsa Rai, nutrition lead" }
+    ]
+  },
+  {
+    "slug": "sourcing-from-nepali-farms",
+    "title": "Sourcing: The Farms Behind the Pouch",
+    "excerpt": "Where our fruit comes from, why we pay above market rate, and what changed when we started buying direct.",
+    "category": "Behind the Scenes",
+    "author": "Nabin Thapa",
+    "date": "2026-05-22T09:00:00Z",
+    "readTime": 6,
+    "accent": "forest",
+    "blocks": [
+      { "type": "paragraph", "text": "When we started in 2023 we bought fruit at Kalimati market like everyone else. It was convenient, and it was the single biggest limitation on how good the product could be." },
+      { "type": "heading", "text": "The problem with buying at market" },
+      { "type": "paragraph", "text": "By the time fruit reaches a wholesale market it has usually been picked early — hard enough to survive transport and handling. Early-picked fruit never develops full sugar content. You cannot dehydrate that into something excellent; you can only concentrate what is already there." },
+      { "type": "paragraph", "text": "You also have no idea what happened before it arrived. No traceability, no relationship, no ability to ask for a later pick." },
+      { "type": "heading", "text": "Going direct" },
+      { "type": "paragraph", "text": "We now buy from eleven farms — apples from the high orchards around Mustang and Jumla, bananas from Chitwan, oranges and lemons from the mid-hills of Sindhuli and Dhankuta, pineapple from Ilam. We pay 15–20% above the prevailing market rate, and in exchange we ask for something the market does not: fruit picked at full ripeness, delivered within 24 hours." },
+      { "type": "list", "items": [
+        "Fruit is picked ripe, not transport-hard",
+        "It reaches our facility within a day, so nothing is lost to storage",
+        "Farmers get a guaranteed price agreed before the season starts",
+        "We can trace every batch back to the farm it came from"
+      ]},
+      { "type": "callout", "title": "Why the premium is not charity", "text": "Riper fruit has higher sugar content, which means better flavour and better yield per kilo. Paying more for better input is straightforwardly good business — it just requires committing before the harvest." },
+      { "type": "heading", "text": "What we get wrong" },
+      { "type": "paragraph", "text": "Buying direct means accepting the season. There are weeks when a variety is simply unavailable, and we go out of stock rather than substitute in market fruit. Customers notice, and occasionally they are annoyed. We think it is the correct trade, but we would rather be honest that it is a trade." }
+    ]
+  },
+  {
+    "slug": "trekking-snacks-that-work",
+    "title": "Trekking Snacks That Actually Work at Altitude",
+    "excerpt": "What to carry above 3,000m, what fails, and why appetite disappears exactly when you need calories most.",
+    "category": "Guides",
+    "author": "Pemba Sherpa",
+    "date": "2026-05-03T09:00:00Z",
+    "readTime": 7,
+    "accent": "sunny",
+    "heroFruit": "Orange",
+    "blocks": [
+      { "type": "paragraph", "text": "The cruel arithmetic of high-altitude trekking is that your energy requirement climbs while your appetite collapses. Above 3,500m most people find they simply do not want to eat, which is precisely when under-fuelling becomes dangerous." },
+      { "type": "heading", "text": "What fails on the trail" },
+      { "type": "list", "items": [
+        "Chocolate — becomes unmanageable in the sun, rock-hard in the cold",
+        "Fresh fruit — heavy, bruises, mostly water you are already carrying",
+        "Energy bars — most people find them cloying by day three",
+        "Anything requiring water to prepare, if you are rationing"
+      ]},
+      { "type": "heading", "text": "Why dried fruit holds up" },
+      { "type": "paragraph", "text": "It is calorie-dense, it does not melt or freeze into a brick, it survives being crushed in a pack, and — this is the part that matters at altitude — it is acidic and sweet enough to eat when nothing else appeals." },
+      { "type": "callout", "title": "The appetite trick", "text": "Sour and tart flavours cut through altitude-suppressed appetite far better than rich or sweet ones. Orange and lemon work when chocolate is unthinkable." },
+      { "type": "heading", "text": "A workable daily ration" },
+      { "type": "paragraph", "text": "Around 150g of mixed dried fruit per trekking day, split into four small portions rather than two large ones. Small and frequent is much easier to get down than sitting with a full meal you do not want." },
+      { "type": "list", "items": [
+        "Morning: banana chips with tea — potassium before you start climbing",
+        "Mid-morning: dried apple or pineapple, roughly 30g",
+        "Afternoon: dried orange or lemon slices, which reliably work when nothing else does",
+        "Evening: a small mixed handful — light on the stomach before sleep"
+      ]},
+      { "type": "paragraph", "text": "Keep it in the lid pocket, not deep in the pack. A snack you have to stop and dig for is a snack you will skip." }
+    ]
+  },
+  {
+    "slug": "baking-with-fruit-powder",
+    "title": "Baking With Banana Powder Without Ruining the Crumb",
+    "excerpt": "Banana powder adds real flavour and natural sweetness to baking — but it is not flour, and treating it like flour goes badly.",
+    "category": "Recipes",
+    "author": "Ritika Joshi",
+    "date": "2026-04-18T09:00:00Z",
+    "readTime": 6,
+    "accent": "berry",
+    "heroFruit": "Banana",
+    "blocks": [
+      { "type": "paragraph", "text": "Freeze-dried banana powder is the most reliable way to get intense, natural banana flavour into baking without adding liquid. Fresh mashed banana waters down a batter; powder does not. But it has quirks, and ignoring them produces dense, oddly dry results." },
+      { "type": "heading", "text": "It is sugar and fibre, not starch" },
+      { "type": "paragraph", "text": "Banana powder has no gluten-forming protein and very little starch. Substitute it one-for-one for flour and the structure collapses. The working rule is to replace no more than 10% of the flour by weight, and to treat anything beyond that as an addition rather than a substitution." },
+      { "type": "callout", "title": "Starting ratio", "text": "For a standard 250g-flour cake: 25g banana powder replacing 25g of the flour. Reduce the sugar by about 15g, because the powder brings its own." },
+      { "type": "heading", "text": "It is thirsty" },
+      { "type": "paragraph", "text": "Powdered banana is extremely hygroscopic — it pulls moisture out of a batter aggressively. Add roughly one extra tablespoon of liquid per 25g of powder, and rest the batter for ten minutes before baking so the powder finishes absorbing before it hits the oven." },
+      { "type": "heading", "text": "Heat deepens the colour" },
+      { "type": "paragraph", "text": "Banana powder's natural sugars caramelise readily above about 175°C — lovely in cookies where a deeper, toffee-ish note is welcome, less useful if you're trying to keep a pale, delicate crumb." },
+      { "type": "list", "items": [
+        "Bake at 160–170°C and extend the time rather than raising the heat, if you want to keep the crumb pale",
+        "For the purest banana flavour and colour, use the powder in no-bake applications — icing, cheesecake, glaze",
+        "A teaspoon of lemon juice balances the sweetness nicely in icing and glazes",
+        "Fold powder in at the end; over-mixing dulls both colour and flavour"
+      ]},
+      { "type": "quote", "text": "If you want the flavour front and centre, keep it out of the oven. Icing is where this powder really shows off.", "attribution": "Ritika Joshi" }
+    ]
+  },
+  {
+    "slug": "storing-dried-fruit-in-monsoon",
+    "title": "Storing Dried Fruit Through a Kathmandu Monsoon",
+    "excerpt": "Humidity is the enemy of everything we make. Practical storage advice for a climate that works against you.",
+    "category": "Guides",
+    "author": "Kiran Adhikari",
+    "date": "2026-04-02T09:00:00Z",
+    "readTime": 4,
+    "accent": "citrus",
+    "blocks": [
+      { "type": "paragraph", "text": "Dried fruit is shelf-stable because its water activity is low enough that mould cannot establish. In a Kathmandu monsoon, with ambient humidity sitting above 80% for weeks, an open pouch will reabsorb moisture from the air surprisingly fast." },
+      { "type": "heading", "text": "The basics" },
+      { "type": "list", "items": [
+        "Reseal the pouch fully — press the zip closed along its whole length, not just the middle",
+        "Push the air out before sealing; trapped humid air is the problem, not the pouch",
+        "Store somewhere dark and cool, away from the stove and away from windows",
+        "Do not decant into a jar unless the jar has a genuine airtight gasket"
+      ]},
+      { "type": "callout", "title": "The silica sachet", "text": "The little sachet in the pouch is not packaging waste. Leave it in — it is actively pulling moisture away from the fruit for the whole life of the pack." },
+      { "type": "heading", "text": "Should you refrigerate?" },
+      { "type": "paragraph", "text": "Generally no. A fridge is a humid environment, and every time you take the pouch out, condensation forms on cold fruit as it meets warm air. That surface moisture is exactly what you were trying to avoid." },
+      { "type": "paragraph", "text": "The exception is if you are keeping an opened pouch — banana powder especially — for more than about six weeks in peak monsoon. In that case freeze it rather than refrigerate, and let it come fully to room temperature before opening." },
+      { "type": "heading", "text": "How to tell it has gone" },
+      { "type": "paragraph", "text": "Sticky or clumping fruit means moisture has got in; it is still safe but will not keep much longer, so eat it soon. Any visible fuzz, or a sharp fermented smell, means discard the pouch. Fruit that has simply darkened is fine — that is normal for a product without sulphites." }
+    ]
+  }
+]
