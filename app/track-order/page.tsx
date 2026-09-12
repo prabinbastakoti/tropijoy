@@ -51,7 +51,7 @@ export default function TrackOrderPage() {
               setSearched(false);
             }}
             placeholder="TJ-8K2P91"
-            className="flex-1 rounded-xl border border-forest/15 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-forest/30 uppercase"
+            className="flex-1 min-w-0 rounded-xl border border-forest/15 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-forest/30 uppercase"
           />
           <Button type="submit">
             <Search size={16} /> Track

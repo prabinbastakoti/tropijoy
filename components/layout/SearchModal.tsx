@@ -84,7 +84,7 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
                   }
                 }}
                 placeholder="Search apple, lemon, banana powder…"
-                className="flex-1 bg-transparent outline-none text-forest-deep placeholder:text-forest/40 text-base"
+                className="flex-1 min-w-0 bg-transparent outline-none text-forest-deep placeholder:text-forest/40 text-base"
               />
               <button
                 onClick={onClose}

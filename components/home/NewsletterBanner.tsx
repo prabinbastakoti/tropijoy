@@ -31,9 +31,9 @@ export default function NewsletterBanner() {
 
   return (
     <section className="bg-cream">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-20">
         <Reveal>
-          <div className="rounded-[2rem] border border-forest/10 bg-white px-6 py-12 sm:px-14 sm:py-16 text-center">
+          <div className="rounded-[2rem] border border-forest/10 bg-white px-6 py-10 sm:px-14 sm:py-16 text-center">
             <span className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-forest/8 text-forest mb-5">
               <Mail size={22} />
             </span>

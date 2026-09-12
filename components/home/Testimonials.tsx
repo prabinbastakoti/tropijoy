@@ -15,12 +15,12 @@ const featured = seededReviews
 
 export default function Testimonials() {
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-24">
       <SectionHeading
         eyebrow="What people say"
         title="2,400+ happy customers"
         description="Reviews pulled straight from product pages — nothing curated."
-        className="mb-12"
+        className="mb-8 sm:mb-12"
       />
 
       <StaggerGroup className="grid md:grid-cols-3 gap-6">

@@ -102,7 +102,7 @@ function StepCard({
 
 export default function ProcessTimeline() {
   return (
-    <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 overflow-hidden">
+    <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-24 overflow-hidden">
       {/* soft organic glow, purely decorative — echoes the hero for visual cohesion */}
       <div
         className="pointer-events-none absolute top-0 right-0 h-72 w-72 rounded-full bg-sunny/8 blur-3xl -z-10"
@@ -113,7 +113,7 @@ export default function ProcessTimeline() {
         eyebrow="Our Sourcing & Quality Process"
         title="From market fruit to pouch, five careful steps"
         description="No shortcuts, no mystery ingredients. Here's exactly what happens before your pouch is sealed."
-        className="mb-16"
+        className="mb-10 sm:mb-16"
       />
 
       {/* mobile / tablet — swipeable row */}
@@ -152,7 +152,7 @@ export default function ProcessTimeline() {
       </div>
 
       <Reveal delay={0.3}>
-        <div className="mt-12 text-center">
+        <div className="mt-8 sm:mt-12 text-center">
           <Link
             href="/our-process"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-forest hover:text-forest-light transition-colors"

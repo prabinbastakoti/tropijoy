@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Inter, Baloo_2 } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "sonner";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import CartDrawer from "@/components/cart/CartDrawer";
 import PageTransition from "@/components/motion/PageTransition";
 import ScrollToTop from "@/components/layout/ScrollToTop";
+import AppToaster from "@/components/layout/AppToaster";
 import { SITE_URL } from "@/lib/utils";
 
 const inter = Inter({
@@ -60,17 +60,7 @@ export default function RootLayout({
         <Footer />
         <CartDrawer />
         <ScrollToTop />
-        <Toaster
-          position="bottom-right"
-          offset={{ bottom: "96px", right: "24px" }}
-          toastOptions={{
-            style: {
-              background: "#116530",
-              color: "#FAF8F5",
-              border: "1px solid rgba(232,141,53,0.3)",
-            },
-          }}
-        />
+        <AppToaster />
       </body>
     </html>
   );

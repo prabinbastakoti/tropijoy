@@ -479,22 +479,32 @@ export default function CheckoutPage() {
               )}
             </AnimatePresence>
 
-            <div className="flex items-center gap-3 mt-8 pt-6 border-t border-forest/10">
+            <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-3 mt-8 pt-6 border-t border-forest/10">
               {step > 0 && (
-                <Button variant="ghost" onClick={() => setStep(step - 1)}>
+                <Button
+                  variant="ghost"
+                  onClick={() => setStep(step - 1)}
+                  className="w-full sm:w-auto justify-center"
+                >
                   <ChevronLeft size={16} /> Back
                 </Button>
               )}
-              <div className="flex-1" />
+              <div className="hidden sm:block flex-1" />
               {step < 2 ? (
                 <Button
                   onClick={() => setStep(step + 1)}
                   disabled={step === 0 ? !shippingValid : !contactValid}
+                  className="w-full sm:w-auto"
                 >
                   Continue
                 </Button>
               ) : (
-                <Button onClick={handleConfirm} disabled={submitting} size="lg">
+                <Button
+                  onClick={handleConfirm}
+                  disabled={submitting}
+                  size="lg"
+                  className="w-full sm:w-auto whitespace-nowrap"
+                >
                   {submitting ? "Placing order…" : "Confirm Order"}
                 </Button>
               )}

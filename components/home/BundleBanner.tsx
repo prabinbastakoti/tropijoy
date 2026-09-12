@@ -36,7 +36,7 @@ export default function BundleBanner() {
             </div>
           </div>
 
-          <div className="flex -space-x-9 sm:-space-x-12 justify-center shrink-0">
+          <div className="flex -space-x-7 sm:-space-x-12 justify-center shrink-0">
             {previewImages.map((src, i) => (
               <div
                 key={src}
@@ -44,13 +44,13 @@ export default function BundleBanner() {
                   zIndex: previewImages.length - i,
                   transform: `rotate(${(i % 2 === 0 ? -1 : 1) * (4 + i)}deg)`,
                 }}
-                className="relative w-28 h-36 sm:w-36 sm:h-48 shrink-0 drop-shadow-xl transition-transform hover:-translate-y-1 hover:z-20"
+                className="relative w-16 h-20 sm:w-36 sm:h-48 shrink-0 drop-shadow-xl transition-transform hover:-translate-y-1 hover:z-20"
               >
                 <Image
                   src={src}
                   alt=""
                   fill
-                  sizes="144px"
+                  sizes="(max-width: 640px) 64px, 144px"
                   className="object-contain"
                 />
               </div>
