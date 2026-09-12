@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { SITE_URL } from "@/lib/utils";
 
 export const alt = "Tropijoy — Pure Joy In Every Bite";
@@ -18,13 +19,30 @@ const POUCH_POSITIONS = [
 ];
 
 /**
- * Fetches a public asset by URL rather than reading it off local disk —
- * Cloudflare Workers has no filesystem at request time (only the build
- * container does), so `fs.readFile` works during a local/CI build but
- * 500s in production. `fetch` is the one asset-loading approach that
- * works identically in Next dev, the build, and on Workers.
+ * Loads a public asset via the Worker's `ASSETS` binding instead of a
+ * public `fetch()`. Cloudflare Workers has no filesystem at request time
+ * (only the build container does), so `fs.readFile` 500s in production —
+ * and a plain `fetch(SITE_URL + path)` from inside the Worker loops back
+ * through Cloudflare's edge and 522s instead of resolving directly. The
+ * `ASSETS` binding reads the static asset straight out of the deployed
+ * bundle with no network round-trip, so it hits neither failure mode.
+ * Falls back to a public fetch when no Cloudflare context exists (e.g.
+ * mid `next build`, or local `next dev` without the binding wired up).
  */
-async function fetchAsset(path: string) {
+async function fetchAsset(path: string): Promise<ArrayBuffer> {
+  try {
+    const { env } = getCloudflareContext();
+    if (env.ASSETS) {
+      const res = await env.ASSETS.fetch(new URL(path, SITE_URL));
+      if (!res.ok) {
+        throw new Error(`Failed to fetch OG asset ${path} via ASSETS binding: ${res.status}`);
+      }
+      return (await res.arrayBuffer()) as ArrayBuffer;
+    }
+  } catch {
+    // No Cloudflare context available (build time / plain `next dev`) — fall through to fetch.
+  }
+
   const res = await fetch(`${SITE_URL}${path}`);
   if (!res.ok) {
     throw new Error(`Failed to fetch OG asset ${path}: ${res.status}`);
