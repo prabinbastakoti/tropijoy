@@ -3,6 +3,7 @@ node_modules
 out
 dist
 .wrangler
+.open-next
 .env
 .env.local
 .env*.local
