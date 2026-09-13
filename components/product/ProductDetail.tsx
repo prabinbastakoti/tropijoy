@@ -281,7 +281,7 @@ export default function ProductDetail({ product }: { product: Product }) {
         </div>
 
         {/* buy row */}
-        <div className="mt-7 flex flex-wrap items-center gap-3">
+        <div className="mt-10 sm:mt-7 flex flex-wrap items-center gap-3">
           <div className="inline-flex items-center gap-2 rounded-full border border-forest/15 bg-white p-1.5">
             <button
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -307,7 +307,7 @@ export default function ProductDetail({ product }: { product: Product }) {
             size="lg"
             onClick={handleAdd}
             disabled={!variant.inStock}
-            className="flex-1 min-w-[200px]"
+            className="flex-1 min-w-[200px] whitespace-nowrap"
           >
             <ShoppingBag size={18} />
             {variant.inStock

@@ -94,7 +94,7 @@ export default function ProductCard({
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
 
-          <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
+          <div className="absolute top-3 left-3 flex flex-col items-start gap-1 sm:gap-1.5">
             {discount > 0 && <Badge variant="sale">-{discount}%</Badge>}
             {product.tags.includes("Best Seller") && (
               <Badge variant="sunny">Best Seller</Badge>

@@ -32,13 +32,13 @@ export interface BillDocumentProps {
 /** A PAN number (or similar) rendered as individual boxed digits, IRD-style. */
 function DigitBoxes({ value }: { value: string }) {
   const digits = value.replace(/\s+/g, "").split("");
-  if (digits.length === 0) return <span className="text-[10px] text-forest-deep/40">—</span>;
+  if (digits.length === 0) return <span className="text-[10px] text-black/40">—</span>;
   return (
     <div className="flex gap-[2px]">
       {digits.map((d, i) => (
         <span
           key={i}
-          className="flex h-[16px] w-[14px] shrink-0 items-center justify-center rounded-[2px] border border-forest-deep bg-forest/[0.04] text-[9px] font-bold leading-none text-forest-deep"
+          className="flex h-[16px] w-[14px] shrink-0 items-center justify-center rounded-[2px] border border-forest-deep bg-forest/[0.04] text-[9px] font-bold leading-none text-black"
         >
           {d}
         </span>
@@ -50,7 +50,7 @@ function DigitBoxes({ value }: { value: string }) {
 function MetaRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-1">
-      <span className="shrink-0 font-semibold text-forest-deep/70">{label}:</span>
+      <span className="shrink-0 font-semibold text-black/70">{label}:</span>
       <span className="font-medium">{value}</span>
     </div>
   );
@@ -65,7 +65,7 @@ function TotalRow({
 }) {
   return (
     <div className="flex justify-between">
-      <span className="text-forest-deep/70">{label}</span>
+      <span className="text-black/70">{label}</span>
       <span className="tabular-nums font-semibold">{value}</span>
     </div>
   );
@@ -100,16 +100,16 @@ export default function BillDocument({
   const blankRows = Math.max(0, 4 - items.length);
 
   return (
-    <div className={cn("flex h-full flex-col text-[10px] text-[#20291f]", padding)}>
+    <div className={cn("flex h-full flex-col text-[10px] text-black", padding)}>
       <div className="relative pb-4">
         {showBadge && (
-          <span className="absolute left-0 top-0 shrink-0 rounded-full border border-forest-deep px-2 py-1 text-[8px] font-bold uppercase tracking-wider text-forest-deep">
+          <span className="absolute left-0 top-0 shrink-0 rounded-full border border-forest-deep px-2 py-1 text-[8px] font-bold uppercase tracking-wider text-black">
             {copyLabel}
           </span>
         )}
 
         <div className="absolute right-0 top-0 flex shrink-0 items-center gap-1">
-          <span className="font-semibold text-forest-deep/70">PAN:</span>
+          <span className="font-semibold text-black/70">PAN:</span>
           <DigitBoxes value={company.panNo} />
         </div>
 
@@ -136,34 +136,34 @@ export default function BillDocument({
 
       <div className="flex flex-1 flex-col">
         <div className="flex flex-col gap-1.5 border-b border-forest-deep py-2 leading-snug">
-          <p className="text-[10.5px] font-bold uppercase tracking-wide text-forest-deep">
+          <p className="text-[10.5px] font-bold uppercase tracking-wide text-black">
             Buyer Information
           </p>
           <div className="grid grid-cols-3 gap-x-2 gap-y-1.5">
             <p className="min-w-0">
-              <span className="font-semibold text-forest-deep/70">Name: </span>
+              <span className="font-semibold text-black/70">Name: </span>
               {customerName || "—"}
             </p>
             {customerAddress && (
               <p className="min-w-0 break-words">
-                <span className="font-semibold text-forest-deep/70">Address: </span>
+                <span className="font-semibold text-black/70">Address: </span>
                 {customerAddress}
               </p>
             )}
             {customerPhone && (
               <p className="min-w-0">
-                <span className="font-semibold text-forest-deep/70">Phone: </span>
+                <span className="font-semibold text-black/70">Phone: </span>
                 {customerPhone}
               </p>
             )}
             {customerPan && (
               <div className="col-span-2 flex items-center gap-1">
-                <span className="font-semibold text-forest-deep/70">PAN:</span>
+                <span className="font-semibold text-black/70">PAN:</span>
                 <DigitBoxes value={customerPan} />
               </div>
             )}
             <p>
-              <span className="font-semibold text-forest-deep/70">Pay Mode: </span>
+              <span className="font-semibold text-black/70">Pay Mode: </span>
               {payMode}
             </p>
           </div>
@@ -174,19 +174,19 @@ export default function BillDocument({
             className="grid border-b border-forest-deep bg-forest/10"
             style={{ gridTemplateColumns: "7% 51% 14% 14% 14%" }}
           >
-            <div className="border-r border-forest-deep px-1 py-1.5 text-center font-bold text-forest-deep">
+            <div className="border-r border-forest-deep px-1 py-1.5 text-center font-bold text-black">
               S.N.
             </div>
-            <div className="border-r border-forest-deep px-1.5 py-1.5 text-left font-bold text-forest-deep">
+            <div className="border-r border-forest-deep px-1.5 py-1.5 text-left font-bold text-black">
               Particulars
             </div>
-            <div className="border-r border-forest-deep px-1 py-1.5 text-center font-bold text-forest-deep">
+            <div className="border-r border-forest-deep px-1 py-1.5 text-center font-bold text-black">
               Qty
             </div>
-            <div className="border-r border-forest-deep px-1 py-1.5 text-center font-bold text-forest-deep">
+            <div className="border-r border-forest-deep px-1 py-1.5 text-center font-bold text-black">
               Rate
             </div>
-            <div className="px-1.5 py-1.5 text-center font-bold text-forest-deep">Amount</div>
+            <div className="px-1.5 py-1.5 text-center font-bold text-black">Amount</div>
           </div>
 
           {items.map((item, idx) => (
@@ -229,7 +229,7 @@ export default function BillDocument({
         </div>
 
         <div className="grid grid-cols-[72%_28%] border-b border-l border-r border-t border-forest-deep">
-          <p className="border-r border-forest-deep p-2 italic leading-snug text-forest-deep/80">
+          <p className="border-r border-forest-deep p-2 italic leading-snug text-black/80">
             Amount in words: {total > 0 ? numberToWords(total) : "—"}
           </p>
           <div className="flex flex-col gap-1 p-2">
@@ -237,14 +237,14 @@ export default function BillDocument({
             {discount > 0 && <TotalRow label="Discount" value={`-${formatPrice(discount)}`} />}
             <TotalRow label="Delivery" value={formatPrice(deliveryFee)} />
             <div className="mt-0.5 flex items-center justify-between border-t border-forest-deep pt-1">
-              <span className="font-bold text-forest-deep">Total</span>
-              <span className="tabular-nums font-bold text-forest-deep">{formatPrice(total)}</span>
+              <span className="font-bold text-black">Total</span>
+              <span className="tabular-nums font-bold text-black">{formatPrice(total)}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <p className="pt-1 text-[9px] italic text-forest-deep/60">E.&amp;O.E.</p>
+      <p className="pt-1 text-[9px] italic text-black/60">E.&amp;O.E.</p>
     </div>
   );
 }
