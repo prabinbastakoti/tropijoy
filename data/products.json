@@ -1,7 +1,7 @@
 [
   {
     "id": "dried-apple",
-    "name": "Dried Apple",
+    "name": "Premium Dried Apple",
     "slug": "dried-apple",
     "category": "Dehydrated Fruit",
     "fruitType": "Apple",
@@ -25,7 +25,7 @@
   },
   {
     "id": "dried-lemon",
-    "name": "Dried Lemon",
+    "name": "Premium Dried Lemon",
     "slug": "dried-lemon",
     "category": "Dehydrated Fruit",
     "fruitType": "Lemon",
@@ -49,7 +49,7 @@
   },
   {
     "id": "dried-orange",
-    "name": "Dried Orange",
+    "name": "Premium Dried Orange",
     "slug": "dried-orange",
     "category": "Dehydrated Fruit",
     "fruitType": "Orange",
@@ -73,7 +73,7 @@
   },
   {
     "id": "dried-pineapple",
-    "name": "Dried Pineapple",
+    "name": "Premium Dried Pineapple",
     "slug": "dried-pineapple",
     "category": "Dehydrated Fruit",
     "fruitType": "Pineapple",
@@ -99,7 +99,7 @@
   },
   {
     "id": "dried-banana",
-    "name": "Dried Banana",
+    "name": "Premium Dried Banana",
     "slug": "dried-banana",
     "category": "Dehydrated Fruit",
     "fruitType": "Banana",
@@ -123,7 +123,7 @@
   },
   {
     "id": "banana-powder",
-    "name": "Banana Powder",
+    "name": "Premium Banana Powder",
     "slug": "banana-powder",
     "category": "Fruit Powder",
     "fruitType": "Banana",
@@ -146,7 +146,7 @@
   },
   {
     "id": "trio-bundle",
-    "name": "Trio Bundle",
+    "name": "Premium Trio Bundle",
     "slug": "trio-bundle",
     "category": "Bundle",
     "fruitType": "Mixed",
@@ -169,7 +169,7 @@
   },
   {
     "id": "sampler-six",
-    "name": "Sampler Six",
+    "name": "Premium Sampler Six",
     "slug": "sampler-six",
     "category": "Bundle",
     "fruitType": "Mixed",

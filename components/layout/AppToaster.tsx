@@ -23,17 +23,19 @@ export default function AppToaster() {
   }, []);
 
   return (
-    <Toaster
-      position={isMobile ? "top-center" : "bottom-right"}
-      offset={isMobile ? { top: "108px" } : { bottom: "96px", right: "24px" }}
-      mobileOffset={{ top: "108px" }}
-      toastOptions={{
-        style: {
-          background: "#116530",
-          color: "#FAF8F5",
-          border: "1px solid rgba(232,141,53,0.3)",
-        },
-      }}
-    />
+    <div className="print:hidden">
+      <Toaster
+        position={isMobile ? "top-center" : "bottom-right"}
+        offset={isMobile ? { top: "108px" } : { bottom: "96px", right: "24px" }}
+        mobileOffset={{ top: "108px" }}
+        toastOptions={{
+          style: {
+            background: "#116530",
+            color: "#FAF8F5",
+            border: "1px solid rgba(232,141,53,0.3)",
+          },
+        }}
+      />
+    </div>
   );
 }

@@ -44,9 +44,9 @@ const channels = [
   {
     icon: Instagram,
     label: "Instagram",
-    value: "@tropijoy",
+    value: "@tropijoynp",
     note: "DMs are open",
-    href: "#",
+    href: "https://instagram.com/tropijoynp",
   },
 ];
 

@@ -52,7 +52,7 @@ export default function CartDrawer() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-forest-deep/40 backdrop-blur-sm"
+          className="print:hidden fixed inset-0 z-50 bg-forest-deep/40 backdrop-blur-sm"
           onClick={closeCart}
         >
           <motion.aside

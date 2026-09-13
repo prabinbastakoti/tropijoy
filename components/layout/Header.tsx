@@ -212,6 +212,10 @@ export default function Header() {
   const solidHeader = scrolled || activeMega !== null;
   const headerHidden = hiddenByScroll && !activeMega && !searchOpen && !mobileOpen;
 
+  // The bill-print tool is a standalone printable page — it shouldn't carry
+  // the marketing site's nav chrome.
+  if (pathname?.startsWith("/bill-print")) return null;
+
   const iconBtnClass =
     "relative w-10 h-10 rounded-full flex items-center justify-center text-forest-ink/70 transition-colors duration-200 hover:bg-forest/10 hover:text-forest";
   const mobileIconBtnClass =

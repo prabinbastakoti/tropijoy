@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Music2 } from "lucide-react";
 import HeritageBand from "@/components/brand/HeritageBand";
 
@@ -27,12 +30,15 @@ const paymentMethods = [
 ];
 
 const socialLinks = [
-  { label: "Instagram", href: "#", icon: Instagram },
+  { label: "Instagram", href: "https://instagram.com/tropijoynp", icon: Instagram },
   { label: "TikTok", href: "#", icon: Music2 },
   { label: "Facebook", href: "#", icon: Facebook },
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/bill-print")) return null;
+
   return (
     <footer id="contact" className="relative bg-forest-deep text-cream mt-24 overflow-hidden">
       <HeritageBand tone="dark" className="opacity-60" />
@@ -128,6 +134,8 @@ export default function Footer() {
               <a
                 key={label}
                 href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={label}
                 className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-forest-deep transition-colors"
               >
