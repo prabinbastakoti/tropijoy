@@ -27,12 +27,14 @@ import { useBillStore } from "@/store/bill-store";
 import { useBillDraftStore, EMPTY_DRAFT_FIELDS } from "@/store/bill-draft-store";
 import { useHydrated } from "@/lib/use-hydrated";
 import { cn, formatPrice, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_RATE } from "@/lib/utils";
+import batchesData from "@/data/batches.json";
 
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
 const PAY_MODES = ["Cash", "eSewa", "Bank Transfer"];
+const BATCHES = batchesData as string[];
 
 let idSeq = 0;
 function nextId(): string {
@@ -63,6 +65,28 @@ export default function BillPrintPage() {
   const setDraft = useBillDraftStore((s) => s.setDraft);
 
   const [companyPanelOpen, setCompanyPanelOpen] = useState(false);
+  // Lets qty/rate/discount inputs sit visually empty while the user is
+  // clearing/retyping them, instead of snapping to "0" on every keystroke.
+  // The store still gets 0 immediately (so totals stay correct); the raw
+  // text is only forgotten (reverting the field to the store value) on blur.
+  const [rawInputs, setRawInputs] = useState<Record<string, string>>({});
+
+  function displayValue(key: string, storeValue: number): string {
+    return key in rawInputs ? rawInputs[key] : String(storeValue);
+  }
+
+  function setRaw(key: string, v: string) {
+    setRawInputs((prev) => ({ ...prev, [key]: v }));
+  }
+
+  function clearRaw(key: string) {
+    setRawInputs((prev) => {
+      if (!(key in prev)) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  }
 
   // First-ever load only: the persisted draft starts with empty invoiceNo/date,
   // so fill them in once hydration completes. Any later edit (including
@@ -90,6 +114,7 @@ export default function BillPrintPage() {
         {
           id: nextId(),
           particulars: `${option.name} (${option.variant})`,
+          batchNo: BATCHES[0],
           qty: 1,
           rate: option.price,
         },
@@ -98,7 +123,9 @@ export default function BillPrintPage() {
   }
 
   function addCustomRow() {
-    setDraft({ items: [...items, { id: nextId(), particulars: "", qty: 1, rate: 0 }] });
+    setDraft({
+      items: [...items, { id: nextId(), particulars: "", batchNo: BATCHES[0], qty: 1, rate: 0 }],
+    });
   }
 
   function updateItem(id: string, patch: Partial<BillLineItem>) {
@@ -177,7 +204,7 @@ export default function BillPrintPage() {
         }
       `}</style>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
         <div className="no-print sticky top-0 z-20 -mx-4 flex flex-wrap items-end justify-between gap-4 bg-[#F3F5F1] px-4 py-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 mb-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-forest/70">
@@ -219,7 +246,7 @@ export default function BillPrintPage() {
         ) : (
           <div className="space-y-8">
             {/* editor */}
-            <div className="no-print max-w-3xl mx-auto space-y-5 w-full">
+            <div className="no-print max-w-4xl mx-auto space-y-5 w-full">
               <section className="bg-white rounded-2xl border border-forest/10 p-5">
                 <button
                   onClick={() => setCompanyPanelOpen((v) => !v)}
@@ -375,14 +402,40 @@ export default function BillPrintPage() {
                       No items yet — search a product above or add a custom line.
                     </p>
                   )}
+                  {items.length > 0 && (
+                    <div className="grid grid-cols-[20px_100px_1fr_56px_72px_80px_32px] gap-2 px-2.5 text-[11px] font-semibold uppercase tracking-wide text-forest-ink/40">
+                      <span />
+                      <span>Batch</span>
+                      <span>Particulars</span>
+                      <span className="text-right">Qty</span>
+                      <span className="text-right">Rate</span>
+                      <span className="pr-1 text-right">Total</span>
+                      <span />
+                    </div>
+                  )}
                   {items.map((item, idx) => (
                     <div
                       key={item.id}
-                      className="grid grid-cols-[20px_1fr_56px_72px_80px_32px] gap-2 items-center bg-cream/60 rounded-xl px-2.5 py-2"
+                      className="grid grid-cols-[20px_100px_1fr_56px_72px_80px_32px] gap-2 items-center bg-cream/60 rounded-xl px-2.5 py-2"
                     >
                       <span className="text-xs font-semibold text-forest-ink/40 text-center tabular-nums">
                         {idx + 1}
                       </span>
+                      <Select
+                        value={item.batchNo}
+                        onValueChange={(v) => updateItem(item.id, { batchNo: v })}
+                      >
+                        <SelectTrigger className="grid w-full grid-cols-[1fr_auto] items-center gap-1 rounded-lg px-1.5 py-2 text-sm text-center [&>span]:text-center">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {BATCHES.map((batch) => (
+                            <SelectItem key={batch} value={batch}>
+                              {batch}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <input
                         value={item.particulars}
                         onChange={(e) => updateItem(item.id, { particulars: e.target.value })}
@@ -390,17 +443,31 @@ export default function BillPrintPage() {
                         className="rounded-lg border border-forest/15 bg-white px-2.5 py-2 text-sm outline-none focus:ring-2 focus:ring-forest/30"
                       />
                       <input
-                        type="number"
-                        min={0}
-                        value={item.qty}
-                        onChange={(e) => updateItem(item.id, { qty: Number(e.target.value) })}
+                        type="text"
+                        inputMode="numeric"
+                        value={displayValue(`${item.id}-qty`, item.qty)}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          if (/^\d*$/.test(v)) {
+                            setRaw(`${item.id}-qty`, v);
+                            updateItem(item.id, { qty: v === "" ? 0 : Number(v) });
+                          }
+                        }}
+                        onBlur={() => clearRaw(`${item.id}-qty`)}
                         className="rounded-lg border border-forest/15 bg-white px-2 py-2 text-sm text-right outline-none focus:ring-2 focus:ring-forest/30"
                       />
                       <input
-                        type="number"
-                        min={0}
-                        value={item.rate}
-                        onChange={(e) => updateItem(item.id, { rate: Number(e.target.value) })}
+                        type="text"
+                        inputMode="decimal"
+                        value={displayValue(`${item.id}-rate`, item.rate)}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          if (/^\d*\.?\d*$/.test(v)) {
+                            setRaw(`${item.id}-rate`, v);
+                            updateItem(item.id, { rate: v === "" ? 0 : Number(v) });
+                          }
+                        }}
+                        onBlur={() => clearRaw(`${item.id}-rate`)}
                         className="rounded-lg border border-forest/15 bg-white px-2 py-2 text-sm text-right outline-none focus:ring-2 focus:ring-forest/30"
                       />
                       <p className="text-sm font-semibold text-forest-deep text-right pr-1 tabular-nums">
@@ -428,10 +495,17 @@ export default function BillPrintPage() {
                   <div className="flex items-center gap-2">
                     <label className="text-sm text-forest-ink/60">Discount (Rs.)</label>
                     <input
-                      type="number"
-                      min={0}
-                      value={discount}
-                      onChange={(e) => setDraft({ discount: Number(e.target.value) })}
+                      type="text"
+                      inputMode="decimal"
+                      value={displayValue("discount", discount)}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        if (/^\d*\.?\d*$/.test(v)) {
+                          setRaw("discount", v);
+                          setDraft({ discount: v === "" ? 0 : Number(v) });
+                        }
+                      }}
+                      onBlur={() => clearRaw("discount")}
                       className="w-28 rounded-lg border border-forest/15 px-2.5 py-2 text-sm text-right outline-none focus:ring-2 focus:ring-forest/30"
                     />
                   </div>

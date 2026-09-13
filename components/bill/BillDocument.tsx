@@ -6,6 +6,7 @@ import { cn, formatPrice } from "@/lib/utils";
 export interface BillLineItem {
   id: string;
   particulars: string;
+  batchNo: string;
   qty: number;
   rate: number;
 }
@@ -134,7 +135,7 @@ export default function BillDocument({
         <MetaRow label="Date" value={dateISO} />
       </div>
 
-      <div className="flex flex-1 flex-col">
+      <div className="grid flex-1" style={{ gridTemplateRows: "auto 1fr auto" }}>
         <div className="flex flex-col gap-1.5 border-b border-forest-deep py-2 leading-snug">
           <p className="text-[10.5px] font-bold uppercase tracking-wide text-black">
             Buyer Information
@@ -169,13 +170,19 @@ export default function BillDocument({
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col border-l border-r border-forest-deep text-[9px]">
+        <div
+          className="grid border-l border-r border-forest-deep text-[9px]"
+          style={{ gridTemplateRows: `repeat(${1 + items.length + blankRows}, auto) 1fr` }}
+        >
           <div
             className="grid border-b border-forest-deep bg-forest/10"
-            style={{ gridTemplateColumns: "7% 51% 14% 14% 14%" }}
+            style={{ gridTemplateColumns: "7% 12% 42% 13% 13% 13%" }}
           >
             <div className="border-r border-forest-deep px-1 py-1.5 text-center font-bold text-black">
               S.N.
+            </div>
+            <div className="border-r border-forest-deep px-1 py-1.5 text-center font-bold text-black">
+              Batch
             </div>
             <div className="border-r border-forest-deep px-1.5 py-1.5 text-left font-bold text-black">
               Particulars
@@ -192,26 +199,28 @@ export default function BillDocument({
           {items.map((item, idx) => (
             <div
               key={item.id}
-              className="grid items-start"
-              style={{ gridTemplateColumns: "7% 51% 14% 14% 14%" }}
+              className="grid"
+              style={{ gridTemplateColumns: "7% 12% 42% 13% 13% 13%" }}
             >
               <div className="border-r border-forest-deep px-1 py-1.5 text-center">{idx + 1}</div>
+              <div className="border-r border-forest-deep px-1 py-1.5 text-center">{item.batchNo || "—"}</div>
               <div className="border-r border-forest-deep px-1.5 py-1.5">{item.particulars || "—"}</div>
-              <div className="border-r border-forest-deep px-1 py-1.5 text-right tabular-nums">
+              <div className="border-r border-forest-deep py-1.5 pl-1 pr-2 text-right tabular-nums">
                 {item.qty}
               </div>
-              <div className="border-r border-forest-deep px-1 py-1.5 text-right tabular-nums">
+              <div className="border-r border-forest-deep py-1.5 pl-1 pr-2 text-right tabular-nums">
                 {item.rate.toLocaleString("en-IN")}
               </div>
-              <div className="px-1.5 py-1.5 text-right tabular-nums font-medium">
+              <div className="py-1.5 pl-1.5 pr-2.5 text-right tabular-nums font-medium">
                 {(item.qty * item.rate).toLocaleString("en-IN")}
               </div>
             </div>
           ))}
 
           {Array.from({ length: blankRows }).map((_, i) => (
-            <div key={`blank-${i}`} className="grid" style={{ gridTemplateColumns: "7% 51% 14% 14% 14%" }}>
+            <div key={`blank-${i}`} className="grid" style={{ gridTemplateColumns: "7% 12% 42% 13% 13% 13%" }}>
               <div className="border-r border-forest-deep px-1 py-1.5">&nbsp;</div>
+              <div className="border-r border-forest-deep px-1 py-1.5" />
               <div className="border-r border-forest-deep px-1.5 py-1.5" />
               <div className="border-r border-forest-deep px-1 py-1.5" />
               <div className="border-r border-forest-deep px-1 py-1.5" />
@@ -219,7 +228,8 @@ export default function BillDocument({
             </div>
           ))}
 
-          <div className="grid flex-1" style={{ gridTemplateColumns: "7% 51% 14% 14% 14%" }}>
+          <div className="grid" style={{ gridTemplateColumns: "7% 12% 42% 13% 13% 13%" }}>
+            <div className="border-r border-forest-deep" />
             <div className="border-r border-forest-deep" />
             <div className="border-r border-forest-deep" />
             <div className="border-r border-forest-deep" />
@@ -228,7 +238,7 @@ export default function BillDocument({
           </div>
         </div>
 
-        <div className="grid grid-cols-[72%_28%] border-b border-l border-r border-t border-forest-deep">
+        <div className="grid grid-cols-[74%_26%] border-b border-l border-r border-t border-forest-deep">
           <p className="border-r border-forest-deep p-2 italic leading-snug text-black/80">
             Amount in words: {total > 0 ? numberToWords(total) : "—"}
           </p>

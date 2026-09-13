@@ -3,12 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { products, variantLabel } from "@/lib/products";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, cn } from "@/lib/utils";
+import type { WeightOption } from "@/lib/types";
 
 export interface ProductOption {
   id: string;
   name: string;
   variant: string;
+  weight: WeightOption;
   price: number;
   sku: string;
 }
@@ -18,10 +20,13 @@ const OPTIONS: ProductOption[] = products.flatMap((p) =>
     id: `${p.id}:${v.id}`,
     name: p.name,
     variant: variantLabel(v),
+    weight: v.weight,
     price: v.price,
     sku: v.sku,
   }))
 );
+
+const WEIGHT_FILTERS: WeightOption[] = ["100g", "200g", "50g", "Bundle"];
 
 interface ProductComboboxProps {
   onSelect: (option: ProductOption) => void;
@@ -31,18 +36,21 @@ interface ProductComboboxProps {
 export default function ProductCombobox({ onSelect }: ProductComboboxProps) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const [weightFilter, setWeightFilter] = useState<WeightOption | null>("100g");
   const rootRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return OPTIONS;
-    return OPTIONS.filter(
-      (o) =>
+    return OPTIONS.filter((o) => {
+      if (weightFilter && o.weight !== weightFilter) return false;
+      if (!q) return true;
+      return (
         o.name.toLowerCase().includes(q) ||
         o.sku.toLowerCase().includes(q) ||
         o.variant.toLowerCase().includes(q)
-    );
-  }, [query]);
+      );
+    });
+  }, [query, weightFilter]);
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -80,29 +88,51 @@ export default function ProductCombobox({ onSelect }: ProductComboboxProps) {
       </div>
 
       {open && (
-        <div className="absolute z-30 mt-1 max-h-72 w-full overflow-y-auto rounded-xl border border-forest/15 bg-white shadow-lg">
-          {filtered.length === 0 ? (
-            <p className="px-3 py-2.5 text-sm text-forest-ink/50">
-              No product found — add a custom item below instead.
-            </p>
-          ) : (
-            filtered.map((o) => (
-              <button
-                key={o.id}
-                type="button"
-                onClick={() => pick(o)}
-                className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm hover:bg-forest/5"
-              >
-                <span className="truncate">
-                  <span className="font-medium text-forest-deep">{o.name}</span>{" "}
-                  <span className="text-forest-ink/50">· {o.variant}</span>
-                </span>
-                <span className="shrink-0 font-medium text-forest-ink/70">
-                  {formatPrice(o.price)}
-                </span>
-              </button>
-            ))
-          )}
+        <div className="absolute z-30 mt-1 w-full overflow-hidden rounded-xl border border-forest/15 bg-white shadow-lg">
+          <div className="flex flex-wrap gap-1.5 border-b border-forest/10 px-3 py-2">
+            {WEIGHT_FILTERS.map((w) => {
+              const active = weightFilter === w;
+              return (
+                <button
+                  key={w}
+                  type="button"
+                  onClick={() => setWeightFilter(active ? null : w)}
+                  className={cn(
+                    "rounded-full border px-2.5 py-1 text-xs font-semibold transition-colors",
+                    active
+                      ? "border-forest bg-forest text-white"
+                      : "border-forest/15 text-forest-deep/70 hover:bg-forest/5"
+                  )}
+                >
+                  {w}
+                </button>
+              );
+            })}
+          </div>
+          <div className="max-h-64 overflow-y-auto">
+            {filtered.length === 0 ? (
+              <p className="px-3 py-2.5 text-sm text-forest-ink/50">
+                No product found — add a custom item below instead.
+              </p>
+            ) : (
+              filtered.map((o) => (
+                <button
+                  key={o.id}
+                  type="button"
+                  onClick={() => pick(o)}
+                  className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm hover:bg-forest/5"
+                >
+                  <span className="truncate">
+                    <span className="font-medium text-forest-deep">{o.name}</span>{" "}
+                    <span className="text-forest-ink/50">· {o.variant}</span>
+                  </span>
+                  <span className="shrink-0 font-medium text-forest-ink/70">
+                    {formatPrice(o.price)}
+                  </span>
+                </button>
+              ))
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -53,7 +53,7 @@ export default function DatePicker({ value, onChange, className }: DatePickerPro
           </span>
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto">
+      <PopoverContent className="w-auto p-4">
         <DayPicker
           mode="single"
           selected={selected}
@@ -68,18 +68,20 @@ export default function DatePicker({ value, onChange, className }: DatePickerPro
           // .rdp-root element, which beats an override from any ancestor —
           // these have to land on that same element, with !important so they
           // win regardless of which stylesheet happens to load last.
-          className="![--rdp-accent-background-color:#E8F0EC] ![--rdp-accent-color:#116530] ![--rdp-day_button-border-radius:0.5rem] [&_.rdp-day_button:focus-visible]:outline-forest"
+          className="![--rdp-accent-background-color:#E8F0EC] ![--rdp-accent-color:#116530] ![--rdp-day_button-border-radius:0.5rem] [&_.rdp-day_button:focus-visible]:outline-forest [&_.rdp-month_caption]:pl-1.5"
         />
-        <button
-          type="button"
-          onClick={() => {
-            onChange(dateToISO(new Date()));
-            setOpen(false);
-          }}
-          className="mt-1 w-full rounded-lg py-1.5 text-center text-xs font-semibold text-forest hover:bg-forest/5"
-        >
-          Today
-        </button>
+        <div className="mt-2 border-t border-forest/10 pt-2">
+          <button
+            type="button"
+            onClick={() => {
+              onChange(dateToISO(new Date()));
+              setOpen(false);
+            }}
+            className="w-full rounded-lg py-1.5 text-center text-xs font-semibold text-forest hover:bg-forest/5"
+          >
+            Today
+          </button>
+        </div>
       </PopoverContent>
     </Popover>
   );

@@ -42,6 +42,14 @@ export const useBillDraftStore = create<BillDraftState>()(
       ...EMPTY_DRAFT_FIELDS,
       setDraft: (patch) => set(patch),
     }),
-    { name: "tropijoy-bill-draft" }
+    {
+      name: "tropijoy-bill-draft",
+      // Discount is a one-off adjustment for the bill being typed right now —
+      // it shouldn't carry over and silently apply to the next bill.
+      partialize: (state) => {
+        const { discount, ...rest } = state;
+        return rest;
+      },
+    }
   )
 );
