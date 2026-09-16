@@ -2,6 +2,9 @@ import Image from "next/image";
 import type { BillCompanyProfile } from "@/store/bill-store";
 import { numberToWords } from "@/lib/bill-words";
 import { cn, formatPrice } from "@/lib/utils";
+import fonepayData from "@/data/fonepay.json";
+
+const FONEPAY = fonepayData as { accountName: string; accountNumber: string; bankName: string };
 
 export interface BillLineItem {
   id: string;
@@ -255,6 +258,31 @@ export default function BillDocument({
       </div>
 
       <p className="pt-1 text-[9px] italic text-black/60">E.&amp;O.E.</p>
+
+      <div className="mt-14 flex items-start justify-between gap-4">
+        {payMode === "QR Payment" ? (
+          <div className="-mt-9 text-[9px] leading-snug">
+            <p className="font-bold uppercase tracking-wide text-black">Account Details</p>
+            <p>
+              <span className="font-semibold text-black/70">Account Name: </span>
+              {FONEPAY.accountName}
+            </p>
+            <p>
+              <span className="font-semibold text-black/70">Account Number: </span>
+              {FONEPAY.accountNumber}
+            </p>
+            <p>
+              <span className="font-semibold text-black/70">Bank Name: </span>
+              {FONEPAY.bankName}
+            </p>
+          </div>
+        ) : (
+          <div />
+        )}
+        <div className="w-[28%] shrink-0 border-t border-forest-deep pt-1 text-center font-semibold text-black">
+          Authorized Signature
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { CalendarDays } from "lucide-react";
@@ -12,6 +12,10 @@ interface DatePickerProps {
   value: string;
   onChange: (iso: string) => void;
   className?: string;
+  /** Called once the popover closes (date picked, Today, or dismissed) — lets
+   * the parent move focus on to the next field instead of Radix's default
+   * of returning focus to this trigger. */
+  onDone?: () => void;
 }
 
 function isoToDate(iso: string): Date | undefined {
@@ -27,7 +31,10 @@ function dateToISO(date: Date): string {
   return `${y}-${m}-${d}`;
 }
 
-export default function DatePicker({ value, onChange, className }: DatePickerProps) {
+const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(function DatePicker(
+  { value, onChange, className, onDone },
+  ref
+) {
   const [open, setOpen] = useState(false);
   const selected = isoToDate(value);
 
@@ -35,6 +42,7 @@ export default function DatePicker({ value, onChange, className }: DatePickerPro
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
+          ref={ref}
           type="button"
           className={cn(
             "flex w-full items-center gap-2.5 rounded-xl border border-forest/15 bg-white px-3.5 py-2.5 text-left text-sm outline-none focus:ring-2 focus:ring-forest/30",
@@ -53,15 +61,28 @@ export default function DatePicker({ value, onChange, className }: DatePickerPro
           </span>
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-4">
+      <PopoverContent
+        className="w-auto p-4"
+        onCloseAutoFocus={(e) => {
+          // Radix's default is to return focus to this trigger — send it on
+          // to whatever's next instead, whenever the popover closes at all
+          // (date picked, Today, Escape, or a click outside).
+          if (onDone) {
+            e.preventDefault();
+            onDone();
+          }
+        }}
+      >
         <DayPicker
           mode="single"
           selected={selected}
           onSelect={(d) => {
-            if (d) {
-              onChange(dateToISO(d));
-              setOpen(false);
-            }
+            // Clicking/entering the already-selected day toggles react-day-picker's
+            // single-select mode to `undefined` (deselect) instead of firing again
+            // with the same date — keep the existing value in that case, but still
+            // close the popover either way.
+            if (d) onChange(dateToISO(d));
+            setOpen(false);
           }}
           autoFocus
           // The library sets --rdp-accent-color etc. directly on its own
@@ -85,4 +106,6 @@ export default function DatePicker({ value, onChange, className }: DatePickerPro
       </PopoverContent>
     </Popover>
   );
-}
+});
+
+export default DatePicker;

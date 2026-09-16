@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   Building2,
   ChevronDown,
   Package,
   Plus,
-  Printer,
   Receipt,
   Save,
   Trash2,
@@ -33,7 +32,7 @@ function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-const PAY_MODES = ["Cash", "eSewa", "Bank Transfer"];
+const PAY_MODES = ["Cash", "QR Payment"];
 const BATCHES = batchesData as string[];
 
 let idSeq = 0;
@@ -64,7 +63,62 @@ export default function BillPrintPage() {
   const discount = useBillDraftStore((s) => s.discount);
   const setDraft = useBillDraftStore((s) => s.setDraft);
 
-  const [companyPanelOpen, setCompanyPanelOpen] = useState(false);
+  const [companyPanelOpen, setCompanyPanelOpen] = useState(true);
+  const [previewOpen, setPreviewOpen] = useState(false);
+
+  // Keyboard flow: Customer Name auto-focuses on load, then Enter walks
+  // down Name -> Phone -> PAN -> Address -> product search, instead of
+  // submitting the form (which would otherwise pop the preview open).
+  const businessPanRef = useRef<HTMLInputElement>(null);
+  const businessPhoneRef = useRef<HTMLInputElement>(null);
+  const businessAddressRef = useRef<HTMLInputElement>(null);
+  const businessEmailRef = useRef<HTMLInputElement>(null);
+  const invoiceNoRef = useRef<HTMLInputElement>(null);
+  const dateTriggerRef = useRef<HTMLButtonElement>(null);
+  const payModeTriggerRef = useRef<HTMLButtonElement>(null);
+  const customerNameRef = useRef<HTMLInputElement>(null);
+  const customerPhoneRef = useRef<HTMLInputElement>(null);
+  const customerPanRef = useRef<HTMLInputElement>(null);
+  const customerAddressRef = useRef<HTMLInputElement>(null);
+  const productSearchRef = useRef<HTMLInputElement>(null);
+  const itemsSectionRef = useRef<HTMLElement>(null);
+  const previewScrollRef = useRef<HTMLDivElement>(null);
+
+  function focusNext(ref: React.RefObject<HTMLInputElement | null>) {
+    return (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        ref.current?.focus();
+      }
+    };
+  }
+
+  // Per-row field refs for the items table, keyed by item id — lets Enter
+  // walk Batch -> Particulars -> Qty -> Rate -> next row's Batch, and on the
+  // last row, Rate -> Discount -> Preview Bill, instead of doing nothing (or
+  // submitting the form) once there's nowhere left for Enter to go.
+  const rowRefs = useRef<
+    Record<string, { batch: HTMLButtonElement | null; particulars: HTMLInputElement | null; qty: HTMLInputElement | null; rate: HTMLInputElement | null }>
+  >({});
+  const discountRef = useRef<HTMLInputElement>(null);
+
+  function getRowRef(id: string) {
+    if (!rowRefs.current[id]) {
+      rowRefs.current[id] = { batch: null, particulars: null, qty: null, rate: null };
+    }
+    return rowRefs.current[id];
+  }
+
+  function focusNextInRow<T extends HTMLElement>(
+    getTarget: () => HTMLElement | null | undefined
+  ) {
+    return (e: React.KeyboardEvent<T>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        getTarget()?.focus();
+      }
+    };
+  }
   // Lets qty/rate/discount inputs sit visually empty while the user is
   // clearing/retyping them, instead of snapping to "0" on every keystroke.
   // The store still gets 0 immediately (so totals stay correct); the raw
@@ -100,6 +154,31 @@ export default function BillPrintPage() {
     if (Object.keys(patch).length > 0) setDraft(patch);
   }, [hydrated, invoiceNo, date, nextInvoiceNo, setDraft]);
 
+  useEffect(() => {
+    if (!hydrated) return;
+    payModeTriggerRef.current?.focus();
+  }, [hydrated]);
+
+  useEffect(() => {
+    if (!previewOpen) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setPreviewOpen(false);
+      if (e.key === "Enter") {
+        e.preventDefault();
+        window.print();
+      }
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        previewScrollRef.current?.scrollBy({
+          top: e.key === "ArrowDown" ? 80 : -80,
+          behavior: "smooth",
+        });
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [previewOpen]);
+
   const subtotal = useMemo(
     () => items.reduce((sum, i) => sum + i.qty * i.rate, 0),
     [items]
@@ -110,7 +189,6 @@ export default function BillPrintPage() {
   function addFromCatalog(option: ProductOption) {
     setDraft({
       items: [
-        ...items,
         {
           id: nextId(),
           particulars: `${option.name} (${option.variant})`,
@@ -118,13 +196,14 @@ export default function BillPrintPage() {
           qty: 1,
           rate: option.price,
         },
+        ...items,
       ],
     });
   }
 
   function addCustomRow() {
     setDraft({
-      items: [...items, { id: nextId(), particulars: "", batchNo: BATCHES[0], qty: 1, rate: 0 }],
+      items: [{ id: nextId(), particulars: "", batchNo: BATCHES[0], qty: 1, rate: 0 }, ...items],
     });
   }
 
@@ -140,8 +219,9 @@ export default function BillPrintPage() {
     setDraft({ invoiceNo: newInvoiceNo, date: todayISO(), ...EMPTY_DRAFT_FIELDS });
   }
 
-  function handlePrint() {
-    window.print();
+  function handlePreviewSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setPreviewOpen(true);
   }
 
   function handleSaveAndNext() {
@@ -154,6 +234,8 @@ export default function BillPrintPage() {
 
   function handleClear() {
     resetForm(invoiceNo);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    requestAnimationFrame(() => payModeTriggerRef.current?.focus());
   }
 
   const docProps = {
@@ -202,10 +284,17 @@ export default function BillPrintPage() {
             top: 0;
           }
         }
+        .no-scrollbar {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
-        <div className="no-print sticky top-0 z-20 -mx-4 flex flex-wrap items-end justify-between gap-4 bg-[#F3F5F1] px-4 py-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 mb-6">
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-6">
+        <div className="no-print sticky top-0 z-20 -mx-4 flex flex-wrap items-end justify-between gap-4 bg-[#F3F5F1] px-4 py-3 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 mb-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-forest/70">
               Internal Tool
@@ -220,13 +309,6 @@ export default function BillPrintPage() {
               className="inline-flex items-center gap-2 rounded-full border-2 border-forest/20 px-4 py-2.5 text-sm font-semibold text-forest-deep hover:bg-forest/5 transition-colors"
             >
               Clear
-            </button>
-            <button
-              onClick={handlePrint}
-              className="inline-flex items-center gap-2 rounded-full border-2 border-forest px-4 py-2.5 text-sm font-semibold text-forest hover:bg-forest hover:text-white transition-colors"
-            >
-              <Printer size={16} />
-              Print
             </button>
             <button
               onClick={handleSaveAndNext}
@@ -244,11 +326,16 @@ export default function BillPrintPage() {
             <div className="skeleton h-64 rounded-3xl" />
           </div>
         ) : (
-          <div className="space-y-8">
+          <div id="bill-print-body" className="space-y-6">
             {/* editor */}
-            <div className="no-print max-w-4xl mx-auto space-y-5 w-full">
-              <section className="bg-white rounded-2xl border border-forest/10 p-5">
+            <form
+              onSubmit={handlePreviewSubmit}
+              className="no-print space-y-4 max-w-6xl mx-auto w-full"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+              <section className="bg-white rounded-2xl border border-forest/10 p-4">
                 <button
+                  type="button"
                   onClick={() => setCompanyPanelOpen((v) => !v)}
                   className="flex w-full items-center justify-between text-left"
                 >
@@ -265,7 +352,7 @@ export default function BillPrintPage() {
                   />
                 </button>
                 {companyPanelOpen && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                  <div className="grid grid-cols-1 gap-3 mt-4">
                     <div>
                       <label className={labelClass}>Business Name</label>
                       <p className="px-3.5 py-2.5 font-display text-base font-bold text-forest-deep">
@@ -275,32 +362,40 @@ export default function BillPrintPage() {
                     <div>
                       <label className={labelClass}>PAN No.</label>
                       <input
+                        ref={businessPanRef}
                         value={company.panNo}
                         onChange={(e) => setCompany({ ...company, panNo: e.target.value })}
+                        onKeyDown={focusNextInRow(() => businessPhoneRef.current)}
                         className={inputClass}
                       />
                     </div>
                     <div>
                       <label className={labelClass}>Phone</label>
                       <input
+                        ref={businessPhoneRef}
                         value={company.phone}
                         onChange={(e) => setCompany({ ...company, phone: e.target.value })}
+                        onKeyDown={focusNextInRow(() => businessAddressRef.current)}
                         className={inputClass}
                       />
                     </div>
                     <div>
                       <label className={labelClass}>Address</label>
                       <input
+                        ref={businessAddressRef}
                         value={company.address}
                         onChange={(e) => setCompany({ ...company, address: e.target.value })}
+                        onKeyDown={focusNextInRow(() => businessEmailRef.current)}
                         className={inputClass}
                       />
                     </div>
                     <div>
                       <label className={labelClass}>Email</label>
                       <input
+                        ref={businessEmailRef}
                         value={company.email}
                         onChange={(e) => setCompany({ ...company, email: e.target.value })}
+                        onKeyDown={focusNextInRow(() => invoiceNoRef.current)}
                         className={inputClass}
                       />
                     </div>
@@ -308,33 +403,54 @@ export default function BillPrintPage() {
                 )}
               </section>
 
-              <section className="bg-white rounded-2xl border border-forest/10 p-5">
-                <h2 className="flex items-center gap-2 font-display font-bold text-forest-deep mb-4">
+              <section className="bg-white rounded-2xl border border-forest/10 p-4">
+                <h2 className="flex items-center gap-2 font-display font-bold text-forest-deep mb-3">
                   <Receipt size={17} className="text-forest" />
                   Bill Details
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3">
                   <div>
                     <label className={labelClass}>Bill / Invoice No.</label>
                     <input
+                      ref={invoiceNoRef}
                       value={invoiceNo}
                       onChange={(e) => setDraft({ invoiceNo: e.target.value })}
+                      onKeyDown={focusNextInRow(() => dateTriggerRef.current)}
                       className={inputClass}
                     />
                   </div>
                   <div>
                     <label className={labelClass}>Date</label>
-                    <DatePicker value={date} onChange={(iso) => setDraft({ date: iso })} />
+                    <DatePicker
+                      ref={dateTriggerRef}
+                      value={date}
+                      onChange={(iso) => setDraft({ date: iso })}
+                      onDone={() => payModeTriggerRef.current?.focus()}
+                    />
                   </div>
                   <div>
                     <label className={labelClass}>Pay Mode</label>
                     <Select value={payMode} onValueChange={(v) => setDraft({ payMode: v })}>
-                      <SelectTrigger className="w-full justify-between rounded-xl px-3.5 py-2.5">
+                      <SelectTrigger
+                        ref={payModeTriggerRef}
+                        className="w-full justify-between rounded-xl px-3.5 py-2.5"
+                      >
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent
+                        onCloseAutoFocus={(e) => {
+                          // Radix's default is to return focus to the
+                          // trigger — send it on to Customer Name instead.
+                          e.preventDefault();
+                          customerNameRef.current?.focus();
+                        }}
+                      >
                         {PAY_MODES.map((mode) => (
-                          <SelectItem key={mode} value={mode}>
+                          <SelectItem
+                            key={mode}
+                            value={mode}
+                            className="border-l-2 border-transparent data-[highlighted]:border-forest data-[highlighted]:bg-forest/15"
+                          >
                             {mode}
                           </SelectItem>
                         ))}
@@ -344,17 +460,19 @@ export default function BillPrintPage() {
                 </div>
               </section>
 
-              <section className="bg-white rounded-2xl border border-forest/10 p-5">
-                <h2 className="flex items-center gap-2 font-display font-bold text-forest-deep mb-4">
+              <section className="bg-white rounded-2xl border border-forest/10 p-4">
+                <h2 className="flex items-center gap-2 font-display font-bold text-forest-deep mb-3">
                   <User size={17} className="text-forest" />
                   Customer
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3">
                   <div>
                     <label className={labelClass}>Name</label>
                     <input
+                      ref={customerNameRef}
                       value={customerName}
                       onChange={(e) => setDraft({ customerName: e.target.value })}
+                      onKeyDown={focusNext(customerPhoneRef)}
                       placeholder="Customer name"
                       className={inputClass}
                     />
@@ -362,8 +480,10 @@ export default function BillPrintPage() {
                   <div>
                     <label className={labelClass}>Phone</label>
                     <input
+                      ref={customerPhoneRef}
                       value={customerPhone}
                       onChange={(e) => setDraft({ customerPhone: e.target.value })}
+                      onKeyDown={focusNext(customerPanRef)}
                       placeholder="98XXXXXXXX"
                       className={inputClass}
                     />
@@ -371,30 +491,53 @@ export default function BillPrintPage() {
                   <div>
                     <label className={labelClass}>PAN No. (optional)</label>
                     <input
+                      ref={customerPanRef}
                       value={customerPan}
                       onChange={(e) => setDraft({ customerPan: e.target.value })}
+                      onKeyDown={focusNext(customerAddressRef)}
                       placeholder="For business buyers"
                       className={inputClass}
                     />
                   </div>
-                  <div className="sm:col-span-2">
+                  <div>
                     <label className={labelClass}>Address</label>
                     <input
+                      ref={customerAddressRef}
                       value={customerAddress}
                       onChange={(e) => setDraft({ customerAddress: e.target.value })}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          productSearchRef.current?.focus();
+                          itemsSectionRef.current?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                          });
+                        }
+                      }}
                       placeholder="Customer address"
                       className={inputClass}
                     />
                   </div>
                 </div>
               </section>
+              </div>
 
-              <section className="bg-white rounded-2xl border border-forest/10 p-5">
-                <h2 className="flex items-center gap-2 font-display font-bold text-forest-deep mb-4">
+              <section
+                ref={itemsSectionRef}
+                className="bg-white rounded-2xl border border-forest/10 p-4"
+              >
+                <h2 className="flex items-center gap-2 font-display font-bold text-forest-deep mb-3">
                   <Package size={17} className="text-forest" />
                   Items
                 </h2>
-                <ProductCombobox onSelect={addFromCatalog} />
+                <ProductCombobox
+                  ref={productSearchRef}
+                  onSelect={addFromCatalog}
+                  onEnterWhileClosed={() => {
+                    if (items[0]) getRowRef(items[0].id).batch?.focus();
+                  }}
+                />
 
                 <div className="mt-4 space-y-2">
                   {items.length === 0 && (
@@ -403,7 +546,7 @@ export default function BillPrintPage() {
                     </p>
                   )}
                   {items.length > 0 && (
-                    <div className="grid grid-cols-[20px_100px_1fr_56px_72px_80px_32px] gap-2 px-2.5 text-[11px] font-semibold uppercase tracking-wide text-forest-ink/40">
+                    <div className="grid grid-cols-[24px_110px_1fr_80px_100px_110px_36px] gap-2 px-2.5 text-[11px] font-semibold uppercase tracking-wide text-forest-ink/40">
                       <span />
                       <span>Batch</span>
                       <span>Particulars</span>
@@ -416,7 +559,7 @@ export default function BillPrintPage() {
                   {items.map((item, idx) => (
                     <div
                       key={item.id}
-                      className="grid grid-cols-[20px_100px_1fr_56px_72px_80px_32px] gap-2 items-center bg-cream/60 rounded-xl px-2.5 py-2"
+                      className="grid grid-cols-[24px_110px_1fr_80px_100px_110px_36px] gap-2 items-center bg-cream/60 rounded-xl px-2.5 py-2"
                     >
                       <span className="text-xs font-semibold text-forest-ink/40 text-center tabular-nums">
                         {idx + 1}
@@ -425,24 +568,48 @@ export default function BillPrintPage() {
                         value={item.batchNo}
                         onValueChange={(v) => updateItem(item.id, { batchNo: v })}
                       >
-                        <SelectTrigger className="grid w-full grid-cols-[1fr_auto] items-center gap-1 rounded-lg px-1.5 py-2 text-sm text-center [&>span]:text-center">
+                        <SelectTrigger
+                          ref={(el) => {
+                            getRowRef(item.id).batch = el;
+                          }}
+                          className="grid w-full grid-cols-[1fr_auto] items-center gap-1 rounded-lg px-1.5 py-2 text-sm text-center [&>span]:text-center"
+                        >
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent
+                          onCloseAutoFocus={(e) => {
+                            // Radix's default here is to return focus to the
+                            // trigger — override it so closing (by picking a
+                            // batch) hands focus straight to Particulars.
+                            e.preventDefault();
+                            getRowRef(item.id).particulars?.focus();
+                          }}
+                        >
                           {BATCHES.map((batch) => (
-                            <SelectItem key={batch} value={batch}>
+                            <SelectItem
+                              key={batch}
+                              value={batch}
+                              className="border-l-2 border-transparent data-[highlighted]:border-forest data-[highlighted]:bg-forest/15"
+                            >
                               {batch}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                       <input
+                        ref={(el) => {
+                          getRowRef(item.id).particulars = el;
+                        }}
                         value={item.particulars}
                         onChange={(e) => updateItem(item.id, { particulars: e.target.value })}
+                        onKeyDown={focusNextInRow(() => getRowRef(item.id).qty)}
                         placeholder="Particulars"
                         className="rounded-lg border border-forest/15 bg-white px-2.5 py-2 text-sm outline-none focus:ring-2 focus:ring-forest/30"
                       />
                       <input
+                        ref={(el) => {
+                          getRowRef(item.id).qty = el;
+                        }}
                         type="text"
                         inputMode="numeric"
                         value={displayValue(`${item.id}-qty`, item.qty)}
@@ -453,10 +620,14 @@ export default function BillPrintPage() {
                             updateItem(item.id, { qty: v === "" ? 0 : Number(v) });
                           }
                         }}
+                        onKeyDown={focusNextInRow(() => getRowRef(item.id).rate)}
                         onBlur={() => clearRaw(`${item.id}-qty`)}
                         className="rounded-lg border border-forest/15 bg-white px-2 py-2 text-sm text-right outline-none focus:ring-2 focus:ring-forest/30"
                       />
                       <input
+                        ref={(el) => {
+                          getRowRef(item.id).rate = el;
+                        }}
                         type="text"
                         inputMode="decimal"
                         value={displayValue(`${item.id}-rate`, item.rate)}
@@ -467,6 +638,9 @@ export default function BillPrintPage() {
                             updateItem(item.id, { rate: v === "" ? 0 : Number(v) });
                           }
                         }}
+                        onKeyDown={focusNextInRow(() =>
+                          idx + 1 < items.length ? getRowRef(items[idx + 1].id).batch : discountRef.current
+                        )}
                         onBlur={() => clearRaw(`${item.id}-rate`)}
                         className="rounded-lg border border-forest/15 bg-white px-2 py-2 text-sm text-right outline-none focus:ring-2 focus:ring-forest/30"
                       />
@@ -474,6 +648,7 @@ export default function BillPrintPage() {
                         {formatPrice(item.qty * item.rate)}
                       </p>
                       <button
+                        type="button"
                         onClick={() => removeItem(item.id)}
                         aria-label="Remove item"
                         className="w-8 h-8 rounded-full flex items-center justify-center text-red-500/70 hover:bg-red-50 hover:text-red-600 transition-colors"
@@ -485,6 +660,7 @@ export default function BillPrintPage() {
                 </div>
 
                 <button
+                  type="button"
                   onClick={addCustomRow}
                   className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-forest hover:text-forest-light"
                 >
@@ -495,6 +671,7 @@ export default function BillPrintPage() {
                   <div className="flex items-center gap-2">
                     <label className="text-sm text-forest-ink/60">Discount (Rs.)</label>
                     <input
+                      ref={discountRef}
                       type="text"
                       inputMode="decimal"
                       value={displayValue("discount", discount)}
@@ -503,6 +680,12 @@ export default function BillPrintPage() {
                         if (/^\d*\.?\d*$/.test(v)) {
                           setRaw("discount", v);
                           setDraft({ discount: v === "" ? 0 : Number(v) });
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          setPreviewOpen(true);
                         }
                       }}
                       onBlur={() => clearRaw("discount")}
@@ -524,29 +707,37 @@ export default function BillPrintPage() {
                   </div>
                 </div>
               </section>
-            </div>
+            </form>
 
-            {/* on-screen reading preview — one copy, upright, A5. Purely a screen
-                convenience for proofreading; printing still uses the full
-                print-accurate layout further down, untouched. */}
-            <div className="no-print">
-              <p className="text-xs font-semibold uppercase tracking-wide text-forest-ink/50 mb-3 text-center">
-                Preview
-              </p>
-              <div className="overflow-x-auto">
+            {/* on-screen reading preview — one copy, upright, A5. Purely a
+                screen convenience for proofreading; printing still uses the
+                full print-accurate layout further down, untouched. Hidden
+                until the user asks for it (Preview Bill button, or Enter in
+                any form field), then shown centered over the whole page —
+                billing-software style: fill the form, then review before
+                printing. */}
+            {previewOpen && (
+              <div
+                className="no-print fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+                onClick={() => setPreviewOpen(false)}
+              >
                 <div
-                  className="bg-white shadow-lift mx-auto"
-                  style={{ width: "148mm", height: "210mm" }}
+                  className="relative flex max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-white shadow-lift"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <BillDocument
-                    copyLabel=""
-                    showBadge={false}
-                    padding="px-8 py-10"
-                    {...docProps}
-                  />
+                  <div ref={previewScrollRef} className="overflow-auto no-scrollbar">
+                    <div className="bg-white mx-auto" style={{ width: "148mm", height: "210mm" }}>
+                      <BillDocument
+                        copyLabel=""
+                        showBadge={false}
+                        padding="px-8 py-10"
+                        {...docProps}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* preview */}
             <div id="bill-print-preview">

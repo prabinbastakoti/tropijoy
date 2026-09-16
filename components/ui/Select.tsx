@@ -16,6 +16,7 @@ const SelectTrigger = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
+    type="button"
     className={cn(
       "flex items-center justify-between gap-2 rounded-full border border-forest/15 bg-white px-4 py-2.5 text-sm font-medium text-forest-deep outline-none focus:ring-2 focus:ring-forest/30 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
       className
@@ -120,7 +121,7 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-pointer select-none items-center rounded-xl py-2 pl-8 pr-3 text-sm text-forest-deep/80 outline-none transition-colors focus:bg-forest/8 focus:text-forest-deep data-[state=checked]:font-semibold data-[state=checked]:text-forest data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex w-full cursor-pointer select-none items-center rounded-xl py-2 pl-8 pr-3 text-sm text-forest-deep/80 outline-none transition-colors focus:bg-forest/8 focus:text-forest-deep data-[highlighted]:bg-forest/8 data-[highlighted]:text-forest-deep data-[state=checked]:font-semibold data-[state=checked]:text-forest data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     )}
     {...props}
