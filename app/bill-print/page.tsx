@@ -214,6 +214,7 @@ export default function BillPrintPage() {
     const upcoming = useBillStore.getState().nextInvoiceNo;
     resetForm(upcoming);
     toast.success(`Bill ${usedNo} saved. Next bill: ${upcoming}`);
+    requestAnimationFrame(() => payModeTriggerRef.current?.focus());
   }, [invoiceNo, nextInvoiceNo, commitInvoiceNo, resetForm]);
 
   // Fires once the OS print dialog is dismissed — printed or cancelled,
