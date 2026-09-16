@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import {
   Building2,
@@ -159,26 +160,6 @@ export default function BillPrintPage() {
     payModeTriggerRef.current?.focus();
   }, [hydrated]);
 
-  useEffect(() => {
-    if (!previewOpen) return;
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setPreviewOpen(false);
-      if (e.key === "Enter") {
-        e.preventDefault();
-        window.print();
-      }
-      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-        e.preventDefault();
-        previewScrollRef.current?.scrollBy({
-          top: e.key === "ArrowDown" ? 80 : -80,
-          behavior: "smooth",
-        });
-      }
-    }
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [previewOpen]);
-
   const subtotal = useMemo(
     () => items.reduce((sum, i) => sum + i.qty * i.rate, 0),
     [items]
@@ -215,22 +196,57 @@ export default function BillPrintPage() {
     setDraft({ items: items.filter((i) => i.id !== id) });
   }
 
-  function resetForm(newInvoiceNo: string) {
-    setDraft({ invoiceNo: newInvoiceNo, date: todayISO(), ...EMPTY_DRAFT_FIELDS });
-  }
+  const resetForm = useCallback(
+    (newInvoiceNo: string) => {
+      setDraft({ invoiceNo: newInvoiceNo, date: todayISO(), ...EMPTY_DRAFT_FIELDS });
+    },
+    [setDraft]
+  );
 
   function handlePreviewSubmit(e: React.FormEvent) {
     e.preventDefault();
     setPreviewOpen(true);
   }
 
-  function handleSaveAndNext() {
+  const handleSaveAndNext = useCallback(() => {
     const usedNo = invoiceNo.trim() || nextInvoiceNo;
     commitInvoiceNo(usedNo);
     const upcoming = useBillStore.getState().nextInvoiceNo;
     resetForm(upcoming);
     toast.success(`Bill ${usedNo} saved. Next bill: ${upcoming}`);
-  }
+  }, [invoiceNo, nextInvoiceNo, commitInvoiceNo, resetForm]);
+
+  // Fires once the OS print dialog is dismissed — printed or cancelled,
+  // there's no way to tell them apart — so the preview doesn't just sit
+  // there behind it, and the bill rolls over to the next one right away.
+  useEffect(() => {
+    if (!previewOpen) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setPreviewOpen(false);
+      if (e.key === "Enter") {
+        e.preventDefault();
+        window.print();
+      }
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        previewScrollRef.current?.scrollBy({
+          top: e.key === "ArrowDown" ? 80 : -80,
+          behavior: "smooth",
+        });
+      }
+    }
+    function onAfterPrint() {
+      setPreviewOpen(false);
+      handleSaveAndNext();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("afterprint", onAfterPrint);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("afterprint", onAfterPrint);
+    };
+  }, [previewOpen, handleSaveAndNext]);
 
   function handleClear() {
     resetForm(invoiceNo);
@@ -716,28 +732,36 @@ export default function BillPrintPage() {
                 any form field), then shown centered over the whole page —
                 billing-software style: fill the form, then review before
                 printing. */}
-            {previewOpen && (
-              <div
-                className="no-print fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-                onClick={() => setPreviewOpen(false)}
-              >
+            {previewOpen &&
+              createPortal(
+                // Portalled straight onto <body>: PageTransition wraps every
+                // page in a framer-motion <motion.div>, which (even at rest)
+                // carries a CSS transform — that makes it the containing
+                // block for any `position: fixed` descendant, so the
+                // backdrop was only covering from motion.div's own box down,
+                // not the true viewport top. Escaping via a portal fixes it.
                 <div
-                  className="relative flex max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-white shadow-lift"
-                  onClick={(e) => e.stopPropagation()}
+                  className="no-print fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+                  onClick={() => setPreviewOpen(false)}
                 >
-                  <div ref={previewScrollRef} className="overflow-auto no-scrollbar">
-                    <div className="bg-white mx-auto" style={{ width: "148mm", height: "210mm" }}>
-                      <BillDocument
-                        copyLabel=""
-                        showBadge={false}
-                        padding="px-8 py-10"
-                        {...docProps}
-                      />
+                  <div
+                    className="relative flex max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-white shadow-lift"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div ref={previewScrollRef} className="overflow-auto no-scrollbar">
+                      <div className="bg-white mx-auto" style={{ width: "148mm", height: "210mm" }}>
+                        <BillDocument
+                          copyLabel=""
+                          showBadge={false}
+                          padding="px-8 py-10"
+                          {...docProps}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
+                </div>,
+                document.body
+              )}
 
             {/* preview */}
             <div id="bill-print-preview">
