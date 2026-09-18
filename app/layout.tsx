@@ -8,6 +8,8 @@ import CartDrawer from "@/components/cart/CartDrawer";
 import PageTransition from "@/components/motion/PageTransition";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import AppToaster from "@/components/layout/AppToaster";
+import MaintenanceScreen from "@/components/maintenance/MaintenanceScreen";
+import { MAINTENANCE_MODE } from "@/lib/maintenance";
 import { SITE_URL } from "@/lib/utils";
 
 const inter = Inter({
@@ -51,16 +53,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${baloo.variable}`}>
-      <body className="font-sans antialiased bg-cream min-h-screen flex flex-col">
-        <LoadingScreen />
-        <Header />
-        <main className="flex-1 pt-[var(--header-h)]">
-          <PageTransition>{children}</PageTransition>
-        </main>
-        <Footer />
-        <CartDrawer />
-        <ScrollToTop />
-        <AppToaster />
+      <body
+        className={
+          MAINTENANCE_MODE
+            ? // No min-h-screen here: on mobile 100vh is taller than the visible
+              // viewport and would make the fixed maintenance screen scrollable.
+              "font-sans antialiased bg-forest-deep overflow-hidden"
+            : "font-sans antialiased bg-cream min-h-screen flex flex-col"
+        }
+      >
+        {MAINTENANCE_MODE ? (
+          // `children` is deliberately not rendered: no page, header, footer
+          // or cart should be reachable while the site is down.
+          <MaintenanceScreen />
+        ) : (
+          <>
+            <LoadingScreen />
+            <Header />
+            <main className="flex-1 pt-[var(--header-h)]">
+              <PageTransition>{children}</PageTransition>
+            </main>
+            <Footer />
+            <CartDrawer />
+            <ScrollToTop />
+            <AppToaster />
+          </>
+        )}
       </body>
     </html>
   );
